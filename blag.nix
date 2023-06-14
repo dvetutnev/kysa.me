@@ -1,4 +1,5 @@
 { lib
+, fetchFromGitHub
 , python3
 , fetchPypi
 , python3Packages
@@ -10,12 +11,14 @@ buildPythonApplication rec {
   version = "1.5.0";
   format = "pyproject";
 
-  src = fetchPypi {
-    inherit pname version;
-    hash = "sha256-kYS/JWBIX5g2SfbW8U5VMiLl2XrCN4UVLx/cv5uwZno=";
+  src = fetchFromGitHub {
+    owner = "venthur";
+    repo = "blag";
+    rev = "refs/tags/${version}";
+    hash = "sha256-xddWsbodplh3QfkkRWEeomRzj1KpNkq/g9CrKcBEmp8=";
   };
 
-  buildInputs = with python3Packages; [
+  nativeBuildInputs = with python3Packages; [
     setuptools
   ];
 
@@ -26,7 +29,10 @@ buildPythonApplication rec {
     pygments
   ];
 
-  doCheck = false;
+  nativeCheckInputs = with python3Packages; [
+    pytestCheckHook
+    pytest-cov
+  ];
 
   meta = with lib; {
     description = "blag is a blog-aware, static site generator, written in Python.";
