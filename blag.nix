@@ -1,5 +1,5 @@
 { lib
-, fetchFromGitHub
+, fetchPypi
 , python3
 , python3Packages
 }:
@@ -7,14 +7,12 @@
 with python3.pkgs;
 buildPythonApplication rec {
   pname = "blag";
-  version = "1.5.0";
+  version = "2.0.0";
   format = "pyproject";
 
-  src = fetchFromGitHub {
-    owner = "venthur";
-    repo = "blag";
-    rev = "refs/tags/${version}";
-    hash = "sha256-xddWsbodplh3QfkkRWEeomRzj1KpNkq/g9CrKcBEmp8=";
+  src = fetchPypi {
+    inherit pname version;
+    sha256 = "V/CGKtcKVKY0ejAx1FVWERuEbPcHcHIhqZTna7qBckA=";
   };
 
   nativeBuildInputs = with python3Packages; [
