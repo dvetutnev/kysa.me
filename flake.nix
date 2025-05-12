@@ -9,7 +9,7 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
 
-      _mkSite = { writeText, writeTextDir, symlinkJoin, lib }:
+      _mkSite = { runCommand, writeTextDir, symlinkJoin, pandoc, lib }:
         url:
         let
           index_html = writeTextDir "index.html"
@@ -21,13 +21,31 @@
           </body>
           </html>
           '';
+
 	  addFile = path: writeTextDir (lib.path.removePrefix ./. path)
             (builtins.readFile path);
+
+	  page = file:
+            let
+	      name = lib.path.removePrefix ./. file;
+	    in
+              runCommand name {} ''
+	      target=$out/${lib.escapeShellArg name}.html
+              mkdir -p "$(dirname "$target")"
+	      ls -la
+echo ">>>>>taRGET"
+echo "$target"
+echo "wrrrrrite file"
+echo "dddddd" > "$target"
+echo "${file}"
+              ${lib.getExe pandoc} --version 
+	      '';
         in
           symlinkJoin {
             name = "www_root";
             paths = [
               index_html
+	      (page ./README.md)
             ] ++ map (p: addFile p) [
 	      ./css/poole.css
 	      ./css/syntax.css
