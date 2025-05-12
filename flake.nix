@@ -28,6 +28,9 @@
 	  page = file:
             let
 	      name = lib.path.removePrefix ./. file;
+	      makeCSSArg = css: "--css=${url + (lib.path.removePrefix ./. css)}";
+	      css = makeCSSArg ./css/hyde.css;
+
 	    in
               runCommand name {} ''
 	      target=$out/${lib.escapeShellArg name}.html
@@ -38,6 +41,7 @@ echo "$target"
 echo "wrrrrrite file"
 echo "dddddd" > "$target"
 echo "${file}"
+echo "${css}"
               ${lib.getExe pandoc} --version 
 	      '';
         in
