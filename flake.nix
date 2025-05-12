@@ -9,10 +9,10 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
 
-      _mkSite = { writeText, linkFarmFromDrvs }:
+      _mkSite = { writeText, writeTextDir, symlinkJoin, linkFarmFromDrvs }:
         url:
         let
-          index_html = writeText "index.html"
+          index_html = writeTextDir "index.html"
           ''
           <!DOCTYPE html>
           <html>
@@ -21,20 +21,33 @@
           </body>
           </html>
           '';
+          css = writeTextDir "css/hyde.css"
+            (builtins.readFile ./css/hyde.css);
         in
-          linkFarmFromDrvs "www_root"
-            [
+          symlinkJoin {
+            name = "www_root";
+            paths = [
               index_html
-            ]
-           ;
+              css
+            ];
+          };
 
     in
-    {
+      {
+        packages = forAllSystems (system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+            mkSite = pkgs.callPackage _mkSite {};
+          in
+            {
+              site = mkSite "http://localhost:8080/";
+            });
+        
       apps = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           site = pkgs.callPackage _mkSite {};
-          www_root = site "http://localhost/";
+          www_root = site "http://localhost:8080/";
           previewServer = pkgs.writeShellApplication
             {
               name = "server";
