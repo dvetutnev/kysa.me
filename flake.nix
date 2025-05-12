@@ -9,7 +9,7 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
 
-      _mkSite = { writeText, writeTextDir, symlinkJoin, linkFarmFromDrvs }:
+      _mkSite = { writeText, writeTextDir, symlinkJoin, lib }:
         url:
         let
           index_html = writeTextDir "index.html"
@@ -21,15 +21,20 @@
           </body>
           </html>
           '';
-          css = writeTextDir "css/hyde.css"
-            (builtins.readFile ./css/hyde.css);
+	  addFile = path: writeTextDir (lib.path.removePrefix ./. path)
+            (builtins.readFile path);
         in
           symlinkJoin {
             name = "www_root";
             paths = [
               index_html
-              css
-            ];
+            ] ++ map (p: addFile p) [
+	      ./css/poole.css
+	      ./css/syntax.css
+	      ./css/hyde.css
+	      ./css/hyde-styx.css
+	    ];
+
           };
 
     in
