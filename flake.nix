@@ -22,8 +22,8 @@
           </html>
           '';
 
-	  addFile = path: writeTextDir (lib.path.removePrefix ./. path)
-            (builtins.readFile path);
+	  addFile = file: writeTextDir (lib.path.removePrefix ./. file)
+            (builtins.readFile file);
 
 	  page = file:
             let
