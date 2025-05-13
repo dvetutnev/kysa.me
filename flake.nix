@@ -13,6 +13,13 @@
         siteUrl:
 
         let
+          css = [
+            ./css/poole.css
+            ./css/syntax.css
+            ./css/hyde.css
+            ./css/hyde-styx.css
+          ];
+
           index_html = writeTextDir "index.html" ''
             <!DOCTYPE html>
             <html>
@@ -28,35 +35,55 @@
 
           page = file:
             let
+              include_before = ''
+                <div class="sidebar">
+                  <div class="container sidebar-sticky">
+                    <div class="sidebar-about">
+                      <a href="https://styx-static.github.io/styx-theme-hyde/"><h1>Styx Site</h1></a>
+                      <p class="lead">An elegant open source and mobile first theme for styx made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+                </p>
+                    </div>
+
+                    <ul class="sidebar-nav">
+                      <li><a href="${siteUrl}README.md.html/">Home</a></li>
+                      <li><a href="${siteUrl}">About</a></li>
+
+                    </ul>
+
+                    <p>&copy; 2017. All rights reserved. 
+                </p>
+                  </div>
+                </div>'';
+
               removeCurrentDirPrefix = filePath:
                 lib.strings.removePrefix "./"
                 (lib.path.removePrefix ./. filePath);
               name = removeCurrentDirPrefix file;
               makeCSSArg = cssFile:
                 "--css=${siteUrl + (removeCurrentDirPrefix cssFile)}";
-              cssArgs = lib.concatStringsSep " "
-                (map makeCSSArg [ ./css/pole.css ./css/hyde.css ]);
+              cssArgs = lib.concatStringsSep " " (map makeCSSArg css);
 
             in runCommand name { } ''
               target=$out/${lib.escapeShellArg name}.html
               mkdir -p "$(dirname "$target")"
-              echo ">>>>>taRGET"
+              echo ">>>>>taRGET----"
               echo "$target"
-              echo "wrrrrrite file"
-              echo "dddddd" > "$target"
               echo "${file}"
               echo "${cssArgs}"
-              ${lib.getExe pandoc} --version 
+              ${lib.getExe pandoc} --standalone \
+                                   --to=html5 \
+                                   --output="$target" \
+                                   ${cssArgs} \
+                                   --variable=include-before:${
+                                     lib.escapeShellArg include_before
+                                   } \
+                                   ${file} \
+                                   --verbose
             '';
+
         in symlinkJoin {
           name = "www_root";
-          paths = [ index_html (page ./README.md) ] ++ map (p: addFile p) [
-            ./css/poole.css
-            ./css/syntax.css
-            ./css/hyde.css
-            ./css/hyde-styx.css
-          ];
-
+          paths = [ index_html (page ./README.md) ] ++ map (p: addFile p) css;
         };
 
     in {
@@ -69,8 +96,8 @@
       apps = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          site = pkgs.callPackage _mkSite { };
-          www_root = site "http://localhost:8080/";
+          mkSite = pkgs.callPackage _mkSite { };
+          www_root = mkSite "http://localhost:8080/";
           previewServer = pkgs.writeShellApplication {
             name = "server";
             runtimeInputs = [ pkgs.caddy ];
