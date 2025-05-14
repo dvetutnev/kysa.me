@@ -3,13 +3,25 @@
 
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
-      supportedSystems =
-        [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
+      supportedSystems = [
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
-      _mkSite = { runCommand, writeTextDir, symlinkJoin, pandoc, lib }:
+      _mkSite =
+        {
+          runCommand,
+          writeTextDir,
+          symlinkJoin,
+          pandoc,
+          lib,
+        }:
         siteUrl:
 
         let
@@ -30,12 +42,13 @@
             </html>
           '';
 
-          addFile = file:
-            writeTextDir (lib.path.removePrefix ./. file)
-            (builtins.readFile file);
+          addFile = file: writeTextDir (lib.path.removePrefix ./. file) (builtins.readFile file);
 
-          page = file:
+          page =
+            file:
             let
+              template = ./default.html5;
+
               include_before = ''
                 <div class="sidebar">
                   <div class="container sidebar-sticky">
@@ -56,23 +69,22 @@
                   </div>
                 </div>'';
 
-              removeCurrentDirPrefix = filePath:
-                lib.strings.removePrefix "./"
-                (lib.path.removePrefix ./. filePath);
+              removeCurrentDirPrefix =
+                filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
 
               name = removeCurrentDirPrefix file;
 
-              makeCSSArg = cssPath:
+              makeCSSArg =
+                cssPath:
                 let
-                  res = if builtins.isPath cssPath then
-                    siteUrl + (removeCurrentDirPrefix cssPath)
-                  else
-                    cssPath;
-                in lib.escapeShellArg "--css=${res}";
+                  res = if builtins.isPath cssPath then siteUrl + (removeCurrentDirPrefix cssPath) else cssPath;
+                in
+                lib.escapeShellArg "--css=${res}";
 
               cssArgs = lib.concatStringsSep " " (map makeCSSArg css);
 
-            in runCommand name { } ''
+            in
+            runCommand name { } ''
               target=$out/${lib.escapeShellArg name}.html
               mkdir -p "$(dirname "$target")"
               echo ">>>>>taRGET----"
@@ -80,30 +92,39 @@
               echo "${file}"
               echo "${cssArgs}"
               ${lib.getExe pandoc} --standalone \
+                                   --template=${template} \
                                    --to=html5 \
                                    --output="$target" \
                                    ${cssArgs} \
-                                   --variable=include-before:${
-                                     lib.escapeShellArg include_before
-                                   } \
+                                   --variable=include-before:${lib.escapeShellArg include_before} \
                                    ${file} \
                                    --verbose
             '';
 
-        in symlinkJoin {
+        in
+        symlinkJoin {
           name = "www_root";
-          paths = [ index_html (page ./README.md) ]
-            ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
+          paths = [
+            index_html
+            (page ./README.md)
+          ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
         };
 
-    in {
-      packages = forAllSystems (system:
+    in
+    {
+      packages = forAllSystems (
+        system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage _mkSite { };
-        in { site = mkSite "http://localhost:8080/"; });
+        in
+        {
+          site = mkSite "http://localhost:8080/";
+        }
+      );
 
-      apps = forAllSystems (system:
+      apps = forAllSystems (
+        system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage _mkSite { };
@@ -111,14 +132,15 @@
           previewServer = pkgs.writeShellApplication {
             name = "server";
             runtimeInputs = [ pkgs.caddy ];
-            text =
-              "caddy file-server --listen 127.0.0.1:8080 --root ${www_root}";
+            text = "caddy file-server --listen 127.0.0.1:8080 --root ${www_root}";
           };
-        in {
+        in
+        {
           default = {
             type = "app";
             program = nixpkgs.lib.getExe previewServer;
           };
-        });
+        }
+      );
     };
 }
