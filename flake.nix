@@ -18,6 +18,7 @@
             ./css/syntax.css
             ./css/hyde.css
             ./css/hyde-styx.css
+            "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
           ];
 
           index_html = writeTextDir "index.html" ''
@@ -58,9 +59,17 @@
               removeCurrentDirPrefix = filePath:
                 lib.strings.removePrefix "./"
                 (lib.path.removePrefix ./. filePath);
+
               name = removeCurrentDirPrefix file;
-              makeCSSArg = cssFile:
-                "--css=${siteUrl + (removeCurrentDirPrefix cssFile)}";
+
+              makeCSSArg = cssPath:
+                let
+                  res = if builtins.isPath cssPath then
+                    siteUrl + (removeCurrentDirPrefix cssPath)
+                  else
+                    cssPath;
+                in lib.escapeShellArg "--css=${res}";
+
               cssArgs = lib.concatStringsSep " " (map makeCSSArg css);
 
             in runCommand name { } ''
@@ -83,7 +92,8 @@
 
         in symlinkJoin {
           name = "www_root";
-          paths = [ index_html (page ./README.md) ] ++ map (p: addFile p) css;
+          paths = [ index_html (page ./README.md) ]
+            ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
         };
 
     in {
