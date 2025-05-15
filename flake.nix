@@ -100,10 +100,6 @@
             runCommand name { } ''
               target=$out/${lib.escapeShellArg name}.html
               mkdir -p "$(dirname "$target")"
-              echo ">>>>>taRGET----"
-              echo "$target"
-              echo "${file}"
-              echo "${cssArgs}"
               ${lib.getExe pandoc} --standalone \
                                    --template=${template} \
                                    --to=html5 \
