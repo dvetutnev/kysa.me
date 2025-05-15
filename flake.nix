@@ -17,6 +17,7 @@
       _mkSite =
         {
           runCommand,
+          stdenv,
           writeTextDir,
           symlinkJoin,
           pandoc,
@@ -87,6 +88,8 @@
 
               name = removeCurrentDirPrefix file;
 
+              drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
+
               makeCSSArg =
                 cssPath:
                 let
@@ -97,9 +100,11 @@
               cssArgs = lib.concatStringsSep " " (map makeCSSArg css);
 
             in
-            runCommand name { } ''
+            runCommand drvName { } ''
               target=$out/${lib.escapeShellArg name}.html
               mkdir -p "$(dirname "$target")"
+              echo "$target"
+              echo "$file"
               ${lib.getExe pandoc} --standalone \
                                    --template=${template} \
                                    --to=html5 \
@@ -110,12 +115,26 @@
                                    --verbose
             '';
 
+          homePage = page ./README.md;
+          index = stdenv.mkDerivation {
+            name = "index.html";
+            buildInputs = [ homePage ];
+            buildCommand = ''
+              echo $out
+              echo $homePage
+              echo 12
+              mkdir -p $out
+              ln -s $homePage $out/index.html
+            '';
+          };
         in
         symlinkJoin {
           name = "www_root";
           paths = [
-            index_html
-            (page ./README.md)
+            homePage
+            #index
+            #(page ./README.md)
+            (page ./pages/About.md)
           ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
         };
 
