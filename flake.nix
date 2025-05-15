@@ -53,19 +53,16 @@
                 <div class="sidebar">
                   <div class="container sidebar-sticky">
                     <div class="sidebar-about">
-                      <a href="https://styx-static.github.io/styx-theme-hyde/"><h1>Styx Site</h1></a>
-                      <p class="lead">An elegant open source and mobile first theme for styx made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
-                </p>
+                      <h1>kysa.me</h1>
+                      <p class="lead">&Zcy;&acy;&mcy;&iecy;&tcy;&ocy;&chcy;&kcy;&icy;</p>
                     </div>
 
                     <ul class="sidebar-nav">
                       <li><a href="${siteUrl}README.md.html/">Home</a></li>
                       <li><a href="${siteUrl}">About</a></li>
-
                     </ul>
 
-                    <p>&copy; 2017. All rights reserved. 
-                </p>
+                    <p>&copy; 2017. All rights reserved.</p>
                   </div>
                 </div>'';
 
