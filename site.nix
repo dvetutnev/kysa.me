@@ -17,15 +17,6 @@ let
     "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
   ];
 
-  index_html = writeTextDir "index.html" ''
-    <!DOCTYPE html>
-    <html>
-    <body>
-    <p>Hello world!</p>
-    </body>
-    </html>
-  '';
-
   addFile = file: writeTextDir (lib.path.removePrefix ./. file) (builtins.readFile file);
 
   page =
