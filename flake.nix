@@ -14,137 +14,13 @@
       ];
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
-      _mkSite =
-        {
-          runCommand,
-          stdenv,
-          writeTextDir,
-          symlinkJoin,
-          pandoc,
-          lib,
-        }:
-        siteUrl:
-
-        let
-          css = [
-            ./css/poole.css
-            ./css/syntax.css
-            ./css/hyde.css
-            ./css/hyde-styx.css
-            "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
-          ];
-
-          index_html = writeTextDir "index.html" ''
-            <!DOCTYPE html>
-            <html>
-            <body>
-            <p>Hello world!</p>
-            </body>
-            </html>
-          '';
-
-          addFile = file: writeTextDir (lib.path.removePrefix ./. file) (builtins.readFile file);
-
-          page =
-            file:
-            let
-              template = ./default.html5;
-
-              mkNavLink = { urn, name }: ''<li><a href="${siteUrl}${urn}">${name}</a></li>'';
-
-              mkIncludeBefore = navLinks: ''
-                <div class="sidebar">
-                  <div class="container sidebar-sticky">
-                    <div class="sidebar-about">
-                      <h1>kysa.me</h1>
-                      <p class="lead">&Zcy;&acy;&mcy;&iecy;&tcy;&ocy;&chcy;&kcy;&icy;</p>
-                    </div>
-
-                    <ul class="sidebar-nav">
-                      ${navLinks}
-                    </ul>
-
-                    <p>&copy; 2017. All rights reserved.</p>
-                  </div>
-                </div>'';
-
-              nav_links = lib.strings.concatStrings (
-                map mkNavLink [
-                  {
-                    urn = "README.md.html";
-                    name = "Home";
-                  }
-                  {
-                    urn = "";
-                    name = "About";
-                  }
-                ]
-              );
-
-              include_before = mkIncludeBefore nav_links;
-
-              removeCurrentDirPrefix =
-                filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
-
-              name = removeCurrentDirPrefix file;
-
-              drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
-
-              makeCSSArg =
-                cssPath:
-                let
-                  res = if builtins.isPath cssPath then siteUrl + (removeCurrentDirPrefix cssPath) else cssPath;
-                in
-                lib.escapeShellArg "--css=${res}";
-
-              cssArgs = lib.concatStringsSep " " (map makeCSSArg css);
-
-            in
-            runCommand drvName { } ''
-              target=$out/${lib.escapeShellArg name}.html
-              mkdir -p "$(dirname "$target")"
-              echo "$target"
-              echo "$file"
-              ${lib.getExe pandoc} --standalone \
-                                   --template=${template} \
-                                   --to=html5 \
-                                   --output="$target" \
-                                   ${cssArgs} \
-                                   --variable=include-before:${lib.escapeShellArg include_before} \
-                                   ${file} \
-                                   --verbose
-            '';
-
-          homePage = page ./README.md;
-          index = stdenv.mkDerivation {
-            name = "index.html";
-            buildInputs = [ homePage ];
-            buildCommand = ''
-              echo $out
-              echo $homePage
-              echo 12
-              mkdir -p $out
-              ln -s $homePage $out/index.html
-            '';
-          };
-        in
-        symlinkJoin {
-          name = "www_root";
-          paths = [
-            homePage
-            #index
-            #(page ./README.md)
-            (page ./pages/About.md)
-          ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
-        };
-
     in
     {
       packages = forAllSystems (
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          mkSite = pkgs.callPackage _mkSite { };
+          mkSite = pkgs.callPackage ./site.nix { };
         in
         {
           site = mkSite "http://localhost:8080/";
@@ -155,7 +31,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          mkSite = pkgs.callPackage _mkSite { };
+          mkSite = pkgs.callPackage ./site.nix { };
           www_root = mkSite "http://localhost:8080/";
           previewServer = pkgs.writeShellApplication {
             name = "server";
