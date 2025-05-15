@@ -49,7 +49,9 @@
             let
               template = ./default.html5;
 
-              include_before = ''
+              mkNavLink = { urn, name }: ''<li><a href="${siteUrl}${urn}">${name}</a></li>'';
+
+              mkIncludeBefore = navLinks: ''
                 <div class="sidebar">
                   <div class="container sidebar-sticky">
                     <div class="sidebar-about">
@@ -58,13 +60,27 @@
                     </div>
 
                     <ul class="sidebar-nav">
-                      <li><a href="${siteUrl}README.md.html/">Home</a></li>
-                      <li><a href="${siteUrl}">About</a></li>
+                      ${navLinks}
                     </ul>
 
                     <p>&copy; 2017. All rights reserved.</p>
                   </div>
                 </div>'';
+
+              nav_links = lib.strings.concatStrings (
+                map mkNavLink [
+                  {
+                    urn = "README.md.html";
+                    name = "Home";
+                  }
+                  {
+                    urn = "";
+                    name = "About";
+                  }
+                ]
+              );
+
+              include_before = mkIncludeBefore nav_links;
 
               removeCurrentDirPrefix =
                 filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
