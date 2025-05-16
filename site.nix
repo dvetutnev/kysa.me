@@ -49,7 +49,7 @@ let
             name = "Home";
           }
           {
-            urn = "";
+            urn = "pages/about.md.html";
             name = "About";
           }
         ]
@@ -95,19 +95,21 @@ let
     buildInputs = [ homePage ];
     buildCommand = ''
       echo $out
-      echo $homePage
-      echo 12
+      echo "${homePage}"
+      echo "${homePage.name}"
+      echo 123
       mkdir -p $out
-      ln -s $homePage $out/index.html
+      ln -s "${homePage}"/README.md.html $out/index.html
     '';
   };
+
 in
 symlinkJoin {
   name = "www_root";
   paths = [
     homePage
-    #index
+    index
     #(page ./README.md)
-    (page ./pages/About.md)
+    (page ./pages/about.md)
   ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
 }
