@@ -45,11 +45,11 @@ let
       nav_links = lib.strings.concatStrings (
         map mkNavLink [
           {
-            urn = "README.md.html";
+            urn = "README.html";
             name = "Home";
           }
           {
-            urn = "pages/about.md.html";
+            urn = "pages/about.html";
             name = "About";
           }
         ]
@@ -60,7 +60,7 @@ let
       removeCurrentDirPrefix =
         filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
 
-      name = removeCurrentDirPrefix file;
+      name = "${lib.strings.removeSuffix ".md" (removeCurrentDirPrefix file)}.html";
 
       drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
 
@@ -75,7 +75,7 @@ let
 
     in
     runCommand drvName { } ''
-      target=$out/${lib.escapeShellArg name}.html
+      target=$out/${lib.escapeShellArg name}
       mkdir -p "$(dirname "$target")"
       echo "$target"
       echo "$file"
@@ -99,7 +99,7 @@ let
       echo "${homePage.name}"
       echo 123
       mkdir -p $out
-      ln -s "${homePage}"/README.md.html $out/index.html
+      ln -s "${homePage}"/README.html $out/index.html
     '';
   };
 
