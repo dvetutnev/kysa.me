@@ -36,6 +36,7 @@
           config = pkgs.writeTextDir "Caddyfile" ''
             http://localhost:8080
 
+            header +Cache-Control "no-cache, no-store, must-revalidate"
             root * ${www_root}
             file_server
           '';
