@@ -33,10 +33,16 @@
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage ./site.nix { };
           www_root = mkSite "http://localhost:8080/";
+          config = pkgs.writeTextDir "Caddyfile" ''
+            http://localhost:8080
+
+            root * ${www_root}
+            file_server
+          '';
           previewServer = pkgs.writeShellApplication {
             name = "server";
             runtimeInputs = [ pkgs.caddy ];
-            text = "caddy file-server --listen 127.0.0.1:8080 --root ${www_root}";
+            text = "caddy run --config ${config}/Caddyfile";
           };
         in
         {
