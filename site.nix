@@ -19,7 +19,10 @@ let
 
   addFile = file: writeTextDir (lib.path.removePrefix ./. file) (builtins.readFile file);
 
-  addPic =
+  removeCurrentDirPrefix =
+    filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
+
+  addFile2 =
     file:
     stdenv.mkDerivation rec {
       name = "pic";
@@ -125,6 +128,7 @@ symlinkJoin {
     index
     #(page ./README.md)
     (page ./pages/about.md)
-    (addPic ./dir/nix_hacking_1.png)
+    (addFile2 ./dir/nix_hacking_1.png)
+    (addFile2 ./you_are_here.png)
   ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
 }
