@@ -17,12 +17,7 @@ let
     "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
   ];
 
-  addFile = file: writeTextDir (lib.path.removePrefix ./. file) (builtins.readFile file);
-
-  removeCurrentDirPrefix =
-    filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
-
-  addFile2 =
+  addFile =
     file:
     stdenv.mkDerivation rec {
       name = "pic";
@@ -128,7 +123,7 @@ symlinkJoin {
     index
     #(page ./README.md)
     (page ./pages/about.md)
-    (addFile2 ./dir/nix_hacking_1.png)
-    (addFile2 ./you_are_here.png)
+    (addFile ./dir/nix_hacking_1.png)
+    (addFile ./you_are_here.png)
   ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
 }
