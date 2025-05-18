@@ -60,7 +60,7 @@ let
       removeCurrentDirPrefix =
         filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
 
-      name = "${lib.strings.removeSuffix ".md" (removeCurrentDirPrefix file)}.html";
+      name = builtins.replaceStrings [ ".md" ] [ ".html" ] (removeCurrentDirPrefix file);
 
       drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
 
