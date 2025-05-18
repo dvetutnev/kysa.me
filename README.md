@@ -13,4 +13,4 @@ Text
 
 Русский
 
-![PIC](nix_hacking_1.png)
+![PIC](dir/nix_hacking_1.png)

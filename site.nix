@@ -19,6 +19,27 @@ let
 
   addFile = file: writeTextDir (lib.path.removePrefix ./. file) (builtins.readFile file);
 
+  addPic =
+    file:
+    stdenv.mkDerivation rec {
+      name = "pic";
+      version = "0.0.1";
+      src = file;
+
+      p = removeCurrentDirPrefix src;
+
+      buildCommand = ''
+        echo 123
+        echo $src
+        echo $out
+        echo $p
+        install -m 644 -D $src $out/${p}
+      '';
+    };
+
+  removeCurrentDirPrefix =
+    filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
+
   page =
     file:
     let
@@ -56,9 +77,6 @@ let
       );
 
       include_before = mkIncludeBefore nav_links;
-
-      removeCurrentDirPrefix =
-        filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
 
       name = builtins.replaceStrings [ ".md" ] [ ".html" ] (removeCurrentDirPrefix file);
 
@@ -98,15 +116,6 @@ let
       ln -s "${homePage}"/README.html $out/index.html
     '';
   };
-  addPic = stdenv.mkDerivation {
-    name = "pic";
-    version = "0.0.1";
-    src = ./nix_hacking_1.png;
-
-    buildCommand = ''
-      install -m 644 -D $src $out/nix_hacking_1.png
-    '';
-  };
 
 in
 symlinkJoin {
@@ -116,6 +125,6 @@ symlinkJoin {
     index
     #(page ./README.md)
     (page ./pages/about.md)
-    addPic
+    (addPic ./dir/nix_hacking_1.png)
   ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
 }
