@@ -85,8 +85,6 @@ let
     runCommand drvName { } ''
       target=$out/${lib.escapeShellArg name}
       mkdir -p "$(dirname "$target")"
-      echo "$target"
-      echo "$file"
       ${lib.getExe pandoc} --standalone \
                            --template=${template} \
                            --to=html5 \
