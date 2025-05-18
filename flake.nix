@@ -37,6 +37,9 @@
             http://localhost:8080
 
             header +Cache-Control "no-cache, no-store, must-revalidate"
+
+            log
+
             root * ${www_root}
             file_server
           '';
