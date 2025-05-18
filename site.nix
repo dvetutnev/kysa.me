@@ -21,14 +21,8 @@ let
     file:
     stdenv.mkDerivation rec {
       destName = removeCurrentDirPrefix file;
-
-      name = "pic";
-      src = file;
-
+      name = builtins.replaceStrings [ "/" ] [ "-" ] destName;
       buildCommand = ''
-        echo 123
-        echo $out
-        echo "${file}"
         install -m 644 -D ${file} $out/${destName}
       '';
     };
