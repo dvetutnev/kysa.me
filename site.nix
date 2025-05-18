@@ -94,10 +94,6 @@ let
     name = "index.html";
     buildInputs = [ homePage ];
     buildCommand = ''
-      echo $out
-      echo "${homePage}"
-      echo "${homePage.name}"
-      echo 123
       mkdir -p $out
       ln -s "${homePage}"/README.html $out/index.html
     '';
