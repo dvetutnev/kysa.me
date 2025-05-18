@@ -20,18 +20,16 @@ let
   addFile =
     file:
     stdenv.mkDerivation rec {
-      name = "pic";
-      version = "0.0.1";
-      src = file;
+      destName = removeCurrentDirPrefix file;
 
-      p = removeCurrentDirPrefix src;
+      name = "pic";
+      src = file;
 
       buildCommand = ''
         echo 123
-        echo $src
         echo $out
-        echo $p
-        install -m 644 -D $src $out/${p}
+        echo "${file}"
+        install -m 644 -D ${file} $out/${destName}
       '';
     };
 
