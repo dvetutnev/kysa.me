@@ -13,3 +13,4 @@ Text
 
 Русский
 
+![PIC](nix_hacking_1.png)

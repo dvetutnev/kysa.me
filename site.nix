@@ -98,6 +98,15 @@ let
       ln -s "${homePage}"/README.html $out/index.html
     '';
   };
+  addPic = stdenv.mkDerivation {
+    name = "pic";
+    version = "0.0.1";
+    src = ./nix_hacking_1.png;
+
+    buildCommand = ''
+      install -m 644 -D $src $out/nix_hacking_1.png
+    '';
+  };
 
 in
 symlinkJoin {
@@ -107,5 +116,6 @@ symlinkJoin {
     index
     #(page ./README.md)
     (page ./pages/about.md)
+    addPic
   ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
 }
