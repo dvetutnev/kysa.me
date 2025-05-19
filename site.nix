@@ -104,6 +104,8 @@ let
   index = stdenv.mkDerivation {
     name = "index.html";
     buildInputs = [ homePage ];
+    preferLocalBuild = true;
+    allowSubstitutes = false;
     buildCommand = ''
       mkdir -p $out
       ln -s "${homePage}"/README.html $out/index.html
