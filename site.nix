@@ -82,18 +82,23 @@ let
       cssArgs = lib.concatStringsSep " " (map makeCSSArg css);
 
     in
-    runCommand drvName { } ''
-      target=$out/${lib.escapeShellArg name}
-      mkdir -p "$(dirname "$target")"
-      ${lib.getExe pandoc} --standalone \
-                           --template=${template} \
-                           --to=html5 \
-                           --output="$target" \
-                           ${cssArgs} \
-                           --variable=include-before:${lib.escapeShellArg include_before} \
-                           ${file} \
-                           --verbose
-    '';
+    runCommand drvName
+      {
+        preferLocalBuild = true;
+        allowSubstitutes = false;
+      }
+      ''
+        target=$out/${lib.escapeShellArg name}
+        mkdir -p "$(dirname "$target")"
+        ${lib.getExe pandoc} --standalone \
+                             --template=${template} \
+                             --to=html5 \
+                             --output="$target" \
+                             ${cssArgs} \
+                             --variable=include-before:${lib.escapeShellArg include_before} \
+                             ${file} \
+                             --verbose
+      '';
 
   homePage = page ./README.md;
   index = stdenv.mkDerivation {
