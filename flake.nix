@@ -24,6 +24,7 @@
         in
         {
           site = mkSite "http://localhost:8080/";
+          image = pkgs.callPackage ./extract_image_path.nix { };
         }
       );
 

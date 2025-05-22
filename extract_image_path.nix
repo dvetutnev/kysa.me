@@ -1,4 +1,8 @@
-{ runCommand, pandoc }:
+{
+  runCommand,
+  pandoc,
+  lib,
+}:
 
 let
   file = ./t.md;
@@ -8,8 +12,8 @@ runCommand "extract_image_path"
     preferLocalBuild = true;
     allowSubstitutes = false;
   }
-''
-${lib.getExe pandoc} --to=json \
-                     --output=$out
-                     ${file}
-'';
+  ''
+    ${lib.getExe pandoc} --to=json \
+                         --output=$out \
+                         ${file}
+  ''
