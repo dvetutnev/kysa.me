@@ -4,9 +4,7 @@
   lib,
 }:
 
-let
-  file = ./t.md;
-in
+file:
 runCommand "extract_image_path"
   {
     preferLocalBuild = true;

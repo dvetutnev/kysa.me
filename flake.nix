@@ -21,10 +21,11 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage ./site.nix { };
+          mkJSON = pkgs.callPackage ./extract_image_path.nix { };
         in
         {
           site = mkSite "http://localhost:8080/";
-          image = pkgs.callPackage ./extract_image_path.nix { };
+          images = mkJSON ./t.md;
         }
       );
 
