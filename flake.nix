@@ -25,7 +25,32 @@
         in
         {
           site = mkSite "http://localhost:8080/";
-          images = mkJSON ./t.md;
+          docJSON = mkJSON ./t.md;
+        }
+      );
+
+      lib = forAllSystems (
+        system:
+        let
+          inherit (self.packages.${system}) docJSON;
+          doc = builtins.fromJSON (builtins.readFile docJSON);
+          allImageEntries = builtins.filter (e: e.t == "Figure") doc.blocks;
+          imEntry = builtins.head allImageEntries;
+          imContThrid = builtins.elemAt imEntry.c 2;
+          imContThridObj = builtins.head imContThrid;
+          imContThridObjCont = builtins.head imContThridObj.c;
+          imContThridObjContThrid = builtins.elemAt imContThridObjCont.c 2;
+          imPath = builtins.head imContThridObjContThrid;
+        in
+        {
+          inherit doc;
+          inherit allImageEntries;
+          inherit imEntry;
+          inherit imContThrid;
+          inherit imContThridObj;
+          inherit imContThridObjCont;
+          inherit imContThridObjContThrid;
+          inherit imPath;
         }
       );
 

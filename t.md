@@ -1,4 +1,4 @@
 # header
 
 
-![PIC](pic.png)
+![PIC](dir/nested/pic.png)
