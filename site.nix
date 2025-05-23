@@ -19,44 +19,14 @@ let
 
   removeCurrentDirPrefix = import ./rm_cur_dir_prefix.nix { inherit lib; };
   addFile = import ./add_file.nix { inherit stdenv removeCurrentDirPrefix; };
+  mkSideBar = import ./mk_side_bar.nix { inherit lib; };
 
   mkHTML =
     file:
     let
       template = ./default.html5;
 
-      mkNavLink = { urn, name }: ''<li><a href="${siteUrl}${urn}">${name}</a></li>'';
-
-      mkIncludeBefore = navLinks: ''
-        <div class="sidebar">
-          <div class="container sidebar-sticky">
-            <div class="sidebar-about">
-              <h1>kysa.me</h1>
-              <p class="lead">&Zcy;&acy;&mcy;&iecy;&tcy;&ocy;&chcy;&kcy;&icy;</p>
-            </div>
-
-            <ul class="sidebar-nav">
-              ${navLinks}
-            </ul>
-
-            <p>&copy; 2017. All rights reserved.</p>
-          </div>
-        </div>'';
-
-      nav_links = lib.strings.concatStrings (
-        map mkNavLink [
-          {
-            urn = "README.html";
-            name = "Home";
-          }
-          {
-            urn = "pages/about.html";
-            name = "About";
-          }
-        ]
-      );
-
-      include_before = mkIncludeBefore nav_links;
+      include_before = mkSideBar siteUrl;
 
       name = builtins.replaceStrings [ ".md" ] [ ".html" ] (removeCurrentDirPrefix file);
 
