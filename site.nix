@@ -17,9 +17,7 @@ let
     "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
   ];
 
-  removeCurrentDirPrefix =
-    filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
-
+  removeCurrentDirPrefix = import ./rm_cur_dir_prefix.nix { inherit lib; };
   addFile = import ./add_file.nix { inherit stdenv removeCurrentDirPrefix; };
 
   mkHTML =
