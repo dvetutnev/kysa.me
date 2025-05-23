@@ -109,8 +109,6 @@ let
       preferLocalBuild = true;
       allowSubstitutes = false;
       buildCommand = ''
-        echo 12
-        echo "${homePage.name}"
         mkdir -p $out
         ln -s "${homePage}/${homePage.name}" $out/index.html
       '';
