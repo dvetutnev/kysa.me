@@ -22,10 +22,40 @@
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage ./site.nix { };
           mkJSON = pkgs.callPackage ./extract_image_path.nix { };
+
+          t1 = pkgs.writeTextDir "posts/t1.md" "data1";
+          i1 = pkgs.writeTextDir "posts/t1/pic.png" "png1";
+          p1 = pkgs.symlinkJoin {
+            name = "p1";
+            paths = [
+              t1
+              i1
+            ];
+          };
+          t2 = pkgs.writeTextDir "posts/t2.md" "data";
+          i2 = pkgs.writeTextDir "posts/t2/pic.png" "png2";
+          p2 = pkgs.symlinkJoin {
+            name = "p2";
+            paths = [
+              t2
+              i2
+            ];
+          };
+          comp = pkgs.symlinkJoin {
+            name = "comp";
+            paths = [
+              p1
+              p2
+            ];
+          };
         in
         {
           site = mkSite "http://localhost:8080/";
           docJSON = mkJSON ./t.md;
+
+          inherit t1 i1 p1;
+          inherit t2 i2 p2;
+          inherit comp;
         }
       );
 
