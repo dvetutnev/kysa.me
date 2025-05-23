@@ -17,6 +17,9 @@ let
     "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
   ];
 
+  removeCurrentDirPrefix =
+    filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
+
   addFile =
     file:
     stdenv.mkDerivation rec {
@@ -27,10 +30,7 @@ let
       '';
     };
 
-  removeCurrentDirPrefix =
-    filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
-
-  mkPage =
+  mkHTML =
     file:
     let
       template = ./default.html5;
@@ -100,7 +100,7 @@ let
                              --verbose
       '';
 
-  homePage = mkPage ./README.md;
+  homePage = mkHTML ./README.md;
   mkIndex =
     homePage:
     stdenv.mkDerivation {
@@ -122,7 +122,7 @@ symlinkJoin {
     homePage
     index
     #(page ./README.md)
-    (mkPage ./pages/about.md)
+    (mkHTML ./pages/about.md)
     (addFile ./dir/nix_hacking_1.png)
     (addFile ./you_are_here.png)
   ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
