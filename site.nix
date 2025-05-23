@@ -30,7 +30,7 @@ let
   removeCurrentDirPrefix =
     filePath: lib.strings.removePrefix "./" (lib.path.removePrefix ./. filePath);
 
-  page =
+  mkPage =
     file:
     let
       template = ./default.html5;
@@ -100,17 +100,22 @@ let
                              --verbose
       '';
 
-  homePage = page ./README.md;
-  index = stdenv.mkDerivation {
-    name = "index.html";
-    buildInputs = [ homePage ];
-    preferLocalBuild = true;
-    allowSubstitutes = false;
-    buildCommand = ''
-      mkdir -p $out
-      ln -s "${homePage}"/README.html $out/index.html
-    '';
-  };
+  homePage = mkPage ./README.md;
+  mkIndex =
+    homePage:
+    stdenv.mkDerivation {
+      name = "index.html";
+      buildInputs = [ homePage ];
+      preferLocalBuild = true;
+      allowSubstitutes = false;
+      buildCommand = ''
+        echo 12
+        echo "${homePage.name}"
+        mkdir -p $out
+        ln -s "${homePage}/${homePage.name}" $out/index.html
+      '';
+    };
+  index = mkIndex homePage;
 
 in
 symlinkJoin {
@@ -119,7 +124,7 @@ symlinkJoin {
     homePage
     index
     #(page ./README.md)
-    (page ./pages/about.md)
+    (mkPage ./pages/about.md)
     (addFile ./dir/nix_hacking_1.png)
     (addFile ./you_are_here.png)
   ] ++ map (p: addFile p) (builtins.filter (x: builtins.isPath x) css);
