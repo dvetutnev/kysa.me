@@ -72,14 +72,20 @@ let
 
       drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
 
-      makeCSSArg =
+      mkCSSArg =
         cssPath:
         let
-          res = if builtins.isPath cssPath then siteUrl + (removeCurrentDirPrefix cssPath) else cssPath;
+          res =
+            if
+              builtins.isPath cssPath # \
+            then
+              siteUrl + (removeCurrentDirPrefix cssPath)
+            else
+              cssPath;
         in
         lib.escapeShellArg "--css=${res}";
 
-      cssArgs = lib.concatStringsSep " " (map makeCSSArg css);
+      cssArgs = lib.concatStringsSep " " (map mkCSSArg css);
 
     in
     runCommand drvName
