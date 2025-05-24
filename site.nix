@@ -15,33 +15,22 @@ let
   mkSideBar = import ./mk_side_bar.nix { inherit lib; };
   mkCSS = import ./mk_css.nix { inherit lib removeCurrentDirPrefix; };
   css = mkCSS siteUrl;
-
   mkHTML =
-    file:
-    let
-      template = ./default.html5;
-      include_before = mkSideBar siteUrl;
-      name = builtins.replaceStrings [ ".md" ] [ ".html" ] (removeCurrentDirPrefix file);
-      drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
-
-    in
-    runCommand drvName
+    import ./mk_html.nix
       {
-        preferLocalBuild = true;
-        allowSubstitutes = false;
+        inherit
+          lib
+          removeCurrentDirPrefix
+          pandoc
+          runCommand
+          ;
       }
-      ''
-        target=$out/${lib.escapeShellArg name}
-        mkdir -p "$(dirname "$target")"
-        ${lib.getExe pandoc} --standalone \
-                             --template=${template} \
-                             --to=html5 \
-                             --output="$target" \
-                             ${css.args} \
-                             --variable=include-before:${lib.escapeShellArg include_before} \
-                             ${file} \
-                             --verbose
-      '';
+      {
+        cssArgs = css.args;
+        inherit sideBar;
+      };
+
+  sideBar = mkSideBar siteUrl;
 
   homePage = mkHTML ./README.md;
   mkIndex =
