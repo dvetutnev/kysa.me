@@ -17,3 +17,13 @@ Text
 
 ![PIC2](you_are_here.png)
 
+
+# Run tests
+
+```
+nix eval --impure --expr 'import ./test.nix {}'
+```
+
+```
+nix-build -A tests.fetchurl
+```
