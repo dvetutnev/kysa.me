@@ -27,3 +27,7 @@ nix eval --impure --expr 'import ./test.nix {}'
 ```
 nix-build -A tests.fetchurl
 ```
+
+```
+nix build -L --impure --expr 'import ./test2.nix'
+```
