@@ -1,3 +1,9 @@
+---
+title: my title
+author: I am Dmitriy Vetutnev
+date: may 2025
+---
+
 # First header
 
 ## Second header

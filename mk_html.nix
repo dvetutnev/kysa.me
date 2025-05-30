@@ -5,7 +5,11 @@
   removeCurrentDirPrefix,
 }:
 
-{ cssArgs, sideBar }:
+{
+  cssArgs,
+  sideBar,
+  titlePrefix ? "kysa.me",
+}:
 
 file:
 let
@@ -28,6 +32,7 @@ runCommand drvName
                          --output="$target" \
                          ${cssArgs} \
                          --variable=include-before:${lib.escapeShellArg sideBar} \
+                         --title-prefix=${lib.escapeShellArg titlePrefix} \
                          ${file} \
                          --verbose
   ''
