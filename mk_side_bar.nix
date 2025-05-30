@@ -2,7 +2,8 @@
 
 siteUrl:
 let
-  mkNavLink = { urn, name }: ''<li><a href="${siteUrl}${urn}">${name}</a></li>'';
+  siteUrl' = if lib.strings.hasSuffix "/" siteUrl then siteUrl else "${siteUrl}/";
+  mkNavLink = { urn, name }: ''<li><a href="${siteUrl'}${urn}">${name}</a></li>'';
 
   navLinks = lib.strings.concatStrings (
     map mkNavLink [
@@ -21,7 +22,7 @@ let
     <div class="sidebar">
       <div class="container sidebar-sticky">
         <div class="sidebar-about">
-          <a href="${siteUrl}"><h1>kysa.me</h1></a>
+          <a href="${siteUrl'}"><h1>kysa.me</h1></a>
             <p class="lead">&Zcy;&acy;&mcy;&iecy;&tcy;&ocy;&chcy;&kcy;&icy;</p>
         </div>
 
