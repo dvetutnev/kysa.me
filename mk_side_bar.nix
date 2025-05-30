@@ -21,7 +21,7 @@ let
     <div class="sidebar">
       <div class="container sidebar-sticky">
         <div class="sidebar-about">
-          <h1>kysa.me</h1>
+          <a href="${siteUrl}"><h1>kysa.me</h1></a>
             <p class="lead">&Zcy;&acy;&mcy;&iecy;&tcy;&ocy;&chcy;&kcy;&icy;</p>
         </div>
 
