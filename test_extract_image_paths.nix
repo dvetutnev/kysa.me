@@ -5,16 +5,20 @@
 with pkgs;
 let
   extractImagePaths = callPackage ./extract_image_paths.nix { };
-  testMarkdown = writeText "md" ''
+  testMarkdown = writeTextDir "test.md" ''
     ![pic](dir/pic.png)
+
     ![pic2](d/n/image.jpg)
+
+    # Header
   '';
   expectedArray = [
-    "fake.jpg"
+    "dir/pic.png"
+    "d/n/image.jpg"
   ];
 in
 testers.testEqualContents {
   assertion = "Check extractImagePaths";
   expected = writeText "expected" (builtins.toJSON expectedArray);
-  actual = writeText "actual" (builtins.toJSON (extractImagePaths testMarkdown));
+  actual = writeText "actual" (builtins.toJSON (extractImagePaths "${testMarkdown}/test.md"));
 }
