@@ -52,14 +52,14 @@ runTests {
         foldl' (
           acc: elem: # /
           if elem.t == "Image" then
-            [ elem ] ++ acc
+            acc ++ [ elem ]
           else if isList elem.c then
-            (func elem.c) ++ acc
+            acc ++ (func elem.c)
           else
             acc
         ) [ ] blocks;
 
-      collectImages = blocks: pkgs.lib.reverseList (func blocks);
+      collectImages = blocks: func blocks;
 
     in
     {
