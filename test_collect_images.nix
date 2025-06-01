@@ -14,6 +14,7 @@ let
     {
       t = "Block";
       c = [
+        1
         {
           t = "Image";
           c = "pic2.jpg";

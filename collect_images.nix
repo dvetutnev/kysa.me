@@ -1,15 +1,24 @@
 blocks:
 let
+  pkgs = import <nixpkgs> { };
+  traceVal = pkgs.lib.traceVal;
+  traceIf = pkgs.lib.traceIf;
   func =
+    with builtins;
     blocks: # /
-    builtins.foldl' (
-      acc: elem: # /
-      if elem.t == "Image" then
-        acc ++ [ elem ]
-      else if builtins.isList elem.c then
-        acc ++ (func elem.c)
+    foldl' (
+      acc: elem': # /
+      let
+        elem = traceVal elem';
+      in
+      if (!isAttrs elem) then
+        traceIf true "not attr" acc
+      else if elem.t == "Image" then
+        traceIf true "image" (acc ++ [ elem ])
+      else if isList elem.c then
+        traceIf true "list" (acc ++ (func elem.c))
       else
-        acc
-    ) [ ] blocks;
+        traceIf true "else" acc
+    ) [ ] (traceVal blocks);
 in
 func blocks
