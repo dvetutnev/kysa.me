@@ -8,16 +8,7 @@ date: may 2025
 
 ## Second header
 
-* list 1
-* list 2
-
 Text
-
-*italic*
-
-**BBBBBB**
-
-Русский
 
 ![PIC](dir/nix_hacking_1.png)
 
@@ -26,13 +17,13 @@ Text
 
 # Run tests
 
+Для runTests
+
 ```
 nix eval --impure --expr 'import ./test.nix {}'
 ```
 
-```
-nix-build -A tests.fetchurl
-```
+Для тестов из pkgs.testers (testEqualContents)
 
 ```
 nix build -L --impure --expr 'import ./test2.nix'
