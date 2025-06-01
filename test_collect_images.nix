@@ -35,6 +35,9 @@ let
               c = "text";
             }
             {
+              t = "Space";
+            }
+            {
               t = "Image";
               c = "pic4.jpg";
             }

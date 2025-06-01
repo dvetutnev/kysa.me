@@ -1,6 +1,3 @@
-# header
+![pic](dir/nested/pic.png)
 
-
-![PIC](dir/nested/pic.png)
-
-![PIC2](dir2/d/tttt.jpg)
+![](pic.jpg)
