@@ -4,7 +4,7 @@
 
 with pkgs;
 let
-  extractImagePaths = callPackage ./extract_image_paths.nix { };
+  extractImagePaths = callPackage ./md2json.nix { };
   testMarkdown = writeTextDir "test.md" ''
     ![pic](dir/pic.png)
 

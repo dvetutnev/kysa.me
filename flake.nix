@@ -21,7 +21,7 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage ./site.nix { };
-          mkJSON = pkgs.callPackage ./extract_image_path.nix { };
+          mkJSON = pkgs.callPackage ./md2json.nix { };
 
           t1 = pkgs.writeTextDir "posts/t1.md" "data1";
           i1 = pkgs.writeTextDir "posts/t1/pic.png" "png1";
