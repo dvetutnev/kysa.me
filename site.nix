@@ -26,21 +26,6 @@ let
     "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
   ];
 
-  mkCmdArg =
-    cssPath:
-    let
-      res =
-        if
-          builtins.isPath cssPath # \
-        then
-          siteUrl' + (removeCurrentDirPrefix cssPath)
-        else
-          cssPath;
-    in
-    lib.escapeShellArg "--css=${res}";
-
-  cssArgs = lib.concatStringsSep " " (map mkCmdArg cssList);
-
   mkPage =
     callPackage ./mk_page.nix
       {
@@ -49,9 +34,9 @@ let
           ;
       }
       {
-        #css = cssList;
+        css = cssList;
         siteUrl = siteUrl';
-        inherit sideBar cssArgs;
+        inherit sideBar;
       };
 
   #homePage = mkPage ./README.md;

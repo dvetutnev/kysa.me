@@ -6,7 +6,7 @@
 }:
 
 {
-  cssArgs,
+  css,
   siteUrl,
   sideBar,
 }:
@@ -24,7 +24,7 @@ let
           ;
       }
       {
-        inherit cssArgs siteUrl sideBar;
+        inherit css siteUrl sideBar;
       };
 in
 mkHTML file

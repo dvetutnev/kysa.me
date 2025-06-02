@@ -6,7 +6,7 @@
 }:
 
 {
-  cssArgs,
+  css,
   siteUrl,
   sideBar,
   titlePrefix ? "kysa.me",
@@ -18,6 +18,21 @@ let
 
   name = builtins.replaceStrings [ ".md" ] [ ".html" ] (removeCurrentDirPrefix file);
   drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
+
+  mkCmdArg =
+    cssPath:
+    let
+      res =
+        if
+          builtins.isPath cssPath # \
+        then
+          siteUrl + (removeCurrentDirPrefix cssPath)
+        else
+          cssPath;
+    in
+    lib.escapeShellArg "--css=${res}";
+
+  cssArgs = lib.concatStringsSep " " (map mkCmdArg css);
 
 in
 runCommand drvName
