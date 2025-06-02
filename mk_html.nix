@@ -1,6 +1,7 @@
 {
   runCommand,
   pandoc,
+  plantuml,
   lib,
   removeCurrentDirPrefix,
 }:
@@ -39,6 +40,7 @@ runCommand drvName
   {
     preferLocalBuild = true;
     allowSubstitutes = false;
+    nativeBuildInputs = [ plantuml ];
   }
   ''
     target=$out/${lib.escapeShellArg name}
