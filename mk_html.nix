@@ -7,6 +7,7 @@
 
 {
   cssArgs,
+  siteUrl,
   sideBar,
   titlePrefix ? "kysa.me",
 }:
@@ -14,6 +15,7 @@
 file:
 let
   template = ./default.html5;
+
   name = builtins.replaceStrings [ ".md" ] [ ".html" ] (removeCurrentDirPrefix file);
   drvName = builtins.replaceStrings [ "/" ] [ "-" ] name;
 

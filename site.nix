@@ -49,8 +49,9 @@ let
           ;
       }
       {
-        cssArgs = cssArgs;
-        inherit sideBar;
+        #css = cssList;
+        siteUrl = siteUrl';
+        inherit sideBar cssArgs;
       };
 
   #homePage = mkPage ./README.md;
