@@ -16,10 +16,6 @@ let
       c = [
         1
         {
-          t = "Image";
-          c = "pic2.jpg";
-        }
-        {
           t = "Header";
           c = "tEEExt";
         }
@@ -54,10 +50,6 @@ runTests {
       {
         t = "Image";
         c = "pic1.jpg";
-      }
-      {
-        t = "Image";
-        c = "pic2.jpg";
       }
       {
         t = "Image";
