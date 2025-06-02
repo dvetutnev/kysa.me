@@ -1,11 +1,22 @@
 {
-  callPackage,
+  runCommand,
+  pandoc,
+  lib,
 }:
 
 file:
 let
-  md2json = callPackage ./md2json.nix { };
-  json = md2json file;
+  json =
+    runCommand "md2ast"
+      {
+        preferLocalBuild = true;
+        allowSubstitutes = false;
+      }
+      ''
+        ${lib.getExe pandoc} --to=json \
+                             --output=$out \
+                             ${file}
+      '';
   ast = with builtins; fromJSON (readFile json);
 in
 ast
