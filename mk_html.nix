@@ -2,6 +2,7 @@
   runCommand,
   pandoc,
   plantuml,
+  pandoc-plantuml-filter,
   lib,
   removeCurrentDirPrefix,
 }:
