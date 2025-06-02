@@ -97,7 +97,7 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage ./site.nix { };
-          www_root = mkSite "http://localhost:8080/";
+          www_root = mkSite "http://localhost:8080";
           config = pkgs.writeTextDir "Caddyfile" ''
             http://localhost:8080
 

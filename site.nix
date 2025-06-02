@@ -10,12 +10,13 @@
 siteUrl:
 
 let
+  siteUrl' = if lib.strings.hasSuffix "/" siteUrl then siteUrl else "${siteUrl}/";
 
   removeCurrentDirPrefix = callPackage ./rm_cur_dir_prefix.nix { };
   addFile = callPackage ./add_file.nix { inherit removeCurrentDirPrefix; };
   mkSideBar = callPackage ./mk_side_bar.nix { };
 
-  sideBar = mkSideBar siteUrl;
+  sideBar = mkSideBar siteUrl';
 
   cssList = [
     ./css/poole.css
@@ -32,7 +33,7 @@ let
         if
           builtins.isPath cssPath # \
         then
-          siteUrl + (removeCurrentDirPrefix cssPath)
+          siteUrl' + (removeCurrentDirPrefix cssPath)
         else
           cssPath;
     in
