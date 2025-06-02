@@ -1,5 +1,6 @@
 {
   removeCurrentDirPrefix,
+  callPackage,
   runCommand,
   pandoc,
   lib,
@@ -14,14 +15,9 @@
 file:
 let
   mkHTML =
-    import ./mk_html.nix
+    callPackage ./mk_html.nix
       {
-        inherit
-          lib
-          removeCurrentDirPrefix
-          pandoc
-          runCommand
-          ;
+        inherit removeCurrentDirPrefix;
       }
       {
         inherit css siteUrl sideBar;
