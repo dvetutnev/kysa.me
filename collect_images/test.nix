@@ -4,7 +4,7 @@
 
 let
   runTests = pkgs.lib.runTests;
-  collectImages = import ./collect_images.nix;
+  collectImages = import ./.;
 
   blocks = [
     {
