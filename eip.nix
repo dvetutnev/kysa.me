@@ -4,7 +4,7 @@
 
 file:
 let
-  md2ast = import ./md2ast.nix { };
+  md2ast = pkgs.callPackage ./md2ast.nix { };
   collectImages = import ./collect_images;
 
   ast = md2ast file;
