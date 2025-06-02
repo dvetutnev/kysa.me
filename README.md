@@ -28,3 +28,9 @@ nix eval --impure --expr 'import ./test.nix {}'
 ```
 nix build -L --impure --expr 'import ./test2.nix'
 ```
+
+```cpp
+int main() {
+ return 0;
+}
+```
