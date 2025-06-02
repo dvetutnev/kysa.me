@@ -41,6 +41,25 @@ let
         }
       ];
     }
+    {
+      t = "Figure";
+      c = [
+        [ ]
+        [ ]
+        [ ]
+        [
+          {
+            t = "Plain";
+            c = [
+              {
+                t = "Image";
+                c = "pic_fig.png";
+              }
+            ];
+          }
+        ]
+      ];
+    }
   ];
 in
 runTests {
@@ -58,6 +77,10 @@ runTests {
       {
         t = "Image";
         c = "pic4.jpg";
+      }
+      {
+        t = "Image";
+        c = "pic_fig.png";
       }
     ];
   };
