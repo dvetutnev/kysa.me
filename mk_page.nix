@@ -1,8 +1,12 @@
 {
   removeCurrentDirPrefix,
+  addFile,
+
   callPackage,
   runCommand,
   pandoc,
+  symlinkJoin,
+
   lib,
 }:
 
@@ -22,5 +26,16 @@ let
       {
         inherit css siteUrl sideBar;
       };
+
+  extractImagePaths = import ./eip.nix { };
+
+  paths = extractImagePaths file;
 in
-mkHTML file
+symlinkJoin {
+  name = builtins.toString file;
+  paths =
+    [
+      (mkHTML file)
+    ] # /
+    ++ map (p: addFile (./. + "/${p}")) paths;
+}
