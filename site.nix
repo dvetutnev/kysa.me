@@ -18,7 +18,7 @@ let
 
   sideBar = mkSideBar siteUrl';
 
-  cssList = [
+  css = [
     ./css/poole.css
     ./css/syntax.css
     ./css/hyde.css
@@ -29,14 +29,12 @@ let
   mkPage =
     callPackage ./mk_page.nix
       {
-        inherit
-          removeCurrentDirPrefix
-          ;
+        inherit removeCurrentDirPrefix;
       }
       {
-        css = cssList;
+
         siteUrl = siteUrl';
-        inherit sideBar;
+        inherit css sideBar;
       };
 
   #homePage = mkPage ./README.md;
@@ -67,5 +65,5 @@ symlinkJoin {
       (addFile ./you_are_here.png)
     ]
     ++ map (p: addFile p) # /
-      (builtins.filter (x: builtins.isPath x) cssList);
+      (builtins.filter (x: builtins.isPath x) css);
 }
