@@ -27,7 +27,7 @@ let
         inherit css siteUrl sideBar;
       };
 
-  extractImagePaths = import ./eip.nix { };
+  extractImagePaths = callPackage ./extract_image_paths.nix { };
 
   paths = extractImagePaths file;
 in
