@@ -61,8 +61,6 @@ symlinkJoin {
       #index
       (mkPage ./README.md)
       (mkPage ./pages/about.md)
-      #(addFile ./dir/nix_hacking_1.png)
-      #(addFile (lib.traceVal ./you_are_here.png))
     ]
     ++ map (p: addFile p) # /
       (builtins.filter (x: builtins.isPath x) css);

@@ -1,10 +1,11 @@
 {
+  removeCurrentDirPrefix,
   runCommand,
   pandoc,
   plantuml,
   pandoc-plantuml-filter,
+  makeFontsConf,
   lib,
-  removeCurrentDirPrefix,
 }:
 
 {
@@ -12,6 +13,7 @@
   siteUrl,
   sideBar,
   titlePrefix ? "kysa.me",
+  lang ? "ru-RU",
 }:
 
 file:
@@ -45,11 +47,13 @@ runCommand drvName
       plantuml
       pandoc-plantuml-filter
     ];
+    FONTCONFIG_FILE = makeFontsConf { fontDirectories = [ ]; };
   }
   ''
      target=$out/${lib.escapeShellArg name}
      mkdir -p "$(dirname "$target")"
-     mkdir d
+     mkdir images
+     HOME="$(mktemp -d)" # for fontconfig
      ${lib.getExe pandoc} --standalone \
                           --template=${template} \
                           --to=html5 \
@@ -57,19 +61,14 @@ runCommand drvName
                           ${cssArgs} \
                           --variable=include-before:${lib.escapeShellArg sideBar} \
                           --title-prefix=${lib.escapeShellArg titlePrefix} \
+                          --metadata=lang:${lang} \
                           ${file} \
                           --filter pandoc-plantuml \
-                          --extract-media=d \
                           --verbose
-    echo "$PWD"
-    ls -la
-    ls -la /build/d/
-    if [ -d "/build/d/plantuml-images" ]; then
-       echo "Exists plantuml-images"
-       ls -la /build/d/plantuml-images/
-    else
-      echo "No plantuml-images"
-    fi
 
-    echo 21
+    if [ -d "plantuml-images" ]; then
+       echo "Install plantuml images"
+       find plantuml-images -type d -exec install -d -m 755 {} $out/{} \;
+       find plantuml-images -type f -exec install -m 644 {} $out/{} \;
+    fi
   ''
