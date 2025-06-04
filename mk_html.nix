@@ -52,8 +52,8 @@ runCommand drvName
   ''
      target=$out/${lib.escapeShellArg name}
      mkdir -p "$(dirname "$target")"
-     mkdir images
      HOME="$(mktemp -d)" # for fontconfig
+
      ${lib.getExe pandoc} --standalone \
                           --template=${template} \
                           --to=html5 \
@@ -69,6 +69,6 @@ runCommand drvName
     if [ -d "plantuml-images" ]; then
        echo "Install plantuml images"
        find plantuml-images -type d -exec install -d -m 755 {} $out/{} \;
-       find plantuml-images -type f -exec install -m 644 {} $out/{} \;
+       find plantuml-images -type f -name '*.png' -exec install -m 644 {} $out/{} \;
     fi
   ''
