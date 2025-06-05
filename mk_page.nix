@@ -82,7 +82,7 @@ let
         fi
       '';
 
-  extractImagePaths = callPackage ./extract_image_paths.nix { };
+  extractImagePaths = callPackage ./extract-image-paths { };
   imagePaths = extractImagePaths file;
 in
 symlinkJoin {
