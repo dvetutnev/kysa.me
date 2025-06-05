@@ -82,12 +82,12 @@ let
         fi
       '';
 
-  extractImagePaths = callPackage ./extract-image-paths { };
-  imagePaths = extractImagePaths file;
+  extractImageLinks = callPackage ./extract-image-links { };
+  imageLinks = extractImageLinks file;
 in
 symlinkJoin {
   name = builtins.toString file;
   paths = [
     html
-  ] ++ map (p: addFile (./. + "/${p}")) imagePaths;
+  ] ++ map (p: addFile (./. + "/${p}")) imageLinks;
 }
