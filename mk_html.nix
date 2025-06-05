@@ -38,6 +38,7 @@ let
 
   cssArgs = lib.concatStringsSep " " (map mkCmdArg css);
 
+  relative2absolute-links = ./relative2absolute-links.lua;
 in
 runCommand drvName
   {
@@ -48,6 +49,7 @@ runCommand drvName
       pandoc-plantuml-filter
     ];
     FONTCONFIG_FILE = makeFontsConf { fontDirectories = [ ]; };
+    SITE_URL = siteUrl;
   }
   ''
      target=$out/${lib.escapeShellArg name}
@@ -62,9 +64,10 @@ runCommand drvName
                           --variable=include-before:${lib.escapeShellArg sideBar} \
                           --title-prefix=${lib.escapeShellArg titlePrefix} \
                           --metadata=lang:${lang} \
-                          ${file} \
+                          --lua-filter=${relative2absolute-links} \
                           --filter pandoc-plantuml \
-                          --verbose
+                          --verbose \
+                          ${file}
 
     if [ -d "plantuml-images" ]; then
        echo "Install plantuml images"
