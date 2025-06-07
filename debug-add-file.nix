@@ -13,9 +13,17 @@ let
   entry = elemAt src 0;
 
   addFile = pkgs.callPackage ./add-file { inherit stripPrefix; };
-
 in
-addFile {
-  path = (elemAt src 1);
-  prefix = contentPath;
+symlinkJoin {
+  name = "www_root";
+  paths =
+    [ ]
+    ++ map (
+      p:
+      addFile {
+        path = p;
+        prefix = contentPath;
+      }
+    ) src;
+
 }
