@@ -12,20 +12,29 @@ let
   addFile = callPackage ./. { inherit stripPrefix; };
 in
 recurseIntoAttrs {
-  test1 =
+  testRoot =
     let
       file = lib.path.append contentPrefix "file.md";
     in
     testEqualContents {
-      assertion = "addFile";
+      assertion = "root";
       expected = writeTextDir "file.md" (builtins.readFile file);
-      actual = writeTextDir "file.md" ''42'';
-
+      actual = addFile {
+        path = file;
+        prefix = contentPrefix;
+      };
     };
 
-  test2 = testEqualContents {
-    assertion = "addFile2";
-    expected = writeTextDir "expected2" ''42'';
-    actual = writeTextDir "expected2" ''42'';
-  };
+  testNested =
+    let
+      file = lib.path.append contentPrefix "pages/about.md";
+    in
+    testEqualContents {
+      assertion = "nested";
+      expected = writeTextDir "pages/about.md" (builtins.readFile file);
+      actual = addFile {
+        path = file;
+        prefix = contentPrefix;
+      };
+    };
 }
