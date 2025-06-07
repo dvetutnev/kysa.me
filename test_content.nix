@@ -5,19 +5,12 @@ with pkgs;
 with builtins;
 let
   traceVal = lib.fileset.traceVal;
-  contentPath = ./content;
-
-  #  stripPrefix =
-  #    path: prefix:
-  #    let
-  #      withoutPathPrefix = lib.path.removePrefix prefix path;
-  #      withoutPrefix = lib.strings.removePrefix "./" withoutPathPrefix;
-  #    in
-  #    withoutPrefix;
-
-  src = lib.fileset.toList contentPath;
 
   stripPrefix = callPackage ./strip-prefix { };
+
+  contentPath = ./content;
+
+  src = lib.fileset.toList contentPath;
 
   #  withoutStorePrefix = map (e: stripPrefix e contentPath) src;
   withoutStorePrefix = map (
