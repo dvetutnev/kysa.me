@@ -1,11 +1,14 @@
 {
   callPackage,
   symlinkJoin,
+  lib,
 }:
 
-siteUrl:
+siteUrl':
 
 let
+  siteUrl = if lib.strings.hasSuffix "/" siteUrl' then siteUrl' else "${siteUrl'}/";
+
   stripPrefix = callPackage ./strip-prefix { };
   addFile = callPackage ./add-file { inherit stripPrefix; };
 
@@ -24,6 +27,14 @@ let
       prefix = ./.;
     }
   ) (builtins.filter (x: builtins.isPath x) css);
+
+  mkSideBar = callPackage ./mk_side_bar.nix { };
+  sideBar = mkSideBar siteUrl;
+
+  mkPage = callPackage ./mk-page.nix { inherit stripPrefix addFile; } {
+    inherit siteUrl css sideBar;
+  };
+
 in
 symlinkJoin {
   name = "www_root";
