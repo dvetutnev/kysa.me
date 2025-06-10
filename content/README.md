@@ -6,6 +6,8 @@ date: may 2025
 
 # First header
 
+With stripPrefix
+
 ## Second header
 
 Text

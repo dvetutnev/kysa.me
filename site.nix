@@ -1,22 +1,16 @@
 {
-  runCommand,
-  stdenv,
-  writeTextDir,
-  symlinkJoin,
-  pandoc,
   callPackage,
+  symlinkJoin,
   lib,
 }:
-siteUrl:
+
+siteUrl':
 
 let
-  siteUrl' = if lib.strings.hasSuffix "/" siteUrl then siteUrl else "${siteUrl}/";
+  siteUrl = if lib.strings.hasSuffix "/" siteUrl' then siteUrl' else "${siteUrl'}/";
 
-  removeCurrentDirPrefix = callPackage ./rm_cur_dir_prefix.nix { };
-  addFile = callPackage ./add_file.nix { inherit removeCurrentDirPrefix; };
-  mkSideBar = callPackage ./mk_side_bar.nix { };
-
-  sideBar = mkSideBar siteUrl';
+  stripPrefix = callPackage ./strip-prefix { };
+  addFile = callPackage ./add-file { inherit stripPrefix; };
 
   css = [
     ./css/poole.css
@@ -26,42 +20,32 @@ let
     "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
   ];
 
-  mkPage =
-    callPackage ./mk_page.nix
-      {
-        inherit removeCurrentDirPrefix addFile;
-      }
-      {
+  cssDrvs = map (
+    p:
+    addFile {
+      path = p;
+      prefix = ./.;
+    }
+  ) (builtins.filter (x: builtins.isPath x) css);
 
-        siteUrl = siteUrl';
-        inherit css sideBar;
-      };
+  mkSideBar = callPackage ./mk_side_bar.nix { };
+  sideBar = mkSideBar siteUrl;
 
-  #homePage = mkPage ./README.md;
-  mkIndex =
-    homePage:
-    stdenv.mkDerivation {
-      name = "index.html";
-      buildInputs = [ homePage ];
-      preferLocalBuild = true;
-      allowSubstitutes = false;
-      buildCommand = ''
-        mkdir -p $out
-        ln -s "${homePage}/${homePage.name}" $out/index.html
-      '';
-    };
-  #index = mkIndex homePage;
+  mkPage = callPackage ./mk-page.nix { inherit stripPrefix addFile; } {
+    inherit siteUrl css sideBar;
+  };
 
 in
 symlinkJoin {
   name = "www_root";
-  paths =
-    [
-      #homePage
-      #index
-      (mkPage ./README.md)
-      (mkPage ./pages/about.md)
-    ]
-    ++ map (p: addFile p) # /
-      (builtins.filter (x: builtins.isPath x) css);
+  paths = [
+    (mkPage {
+      path = ./content/README.md;
+      prefix = ./content;
+    })
+    (mkPage {
+      path = ./content/pages/about.md;
+      prefix = ./content;
+    })
+  ] ++ cssDrvs;
 }

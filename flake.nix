@@ -19,12 +19,10 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage ./site.nix { };
-          mkSite2 = pkgs.callPackage ./site2.nix { };
         in
         {
           site = mkSite "http://localhost:8080/";
           default = self.packages.${system}.site;
-          site2 = mkSite2 "http://localhost:8080/";
         }
       );
 
