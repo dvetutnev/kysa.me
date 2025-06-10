@@ -13,8 +13,8 @@
 }:
 
 {
-  css,
   siteUrl,
+  cssLinks,
   sideBar,
   titlePrefix ? "kysa.me",
   lang ? "ru-RU",
@@ -33,22 +33,19 @@ let
       #      name = builtins.replaceStrings [ "/" ] [ "-" ] name;
 
       mkCmdArg =
-        cssPath:
+        x:
         let
-          res =
+          link =
             if
-              builtins.isPath cssPath # \
+              lib.strings.hasPrefix "http" x # /
             then
-              siteUrl
-              + (stripPrefix {
-                path = cssPath;
-                prefix = ./.;
-              })
+              x
             else
-              cssPath;
+              siteUrl + x;
         in
-        lib.escapeShellArg "--css=${res}";
-      cssArgs = lib.concatStringsSep " " (map mkCmdArg css);
+        lib.escapeShellArg "--css=${link}";
+
+      cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
     in
     runCommand (builtins.toString path)
       {

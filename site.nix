@@ -28,11 +28,22 @@ let
     }
   ) (builtins.filter (x: builtins.isPath x) css);
 
+  cssLinks = map (
+    x:
+    if builtins.isPath x then
+      stripPrefix {
+        path = x;
+        prefix = ./.;
+      }
+    else
+      x
+  ) css;
+
   mkSideBar = callPackage ./mk_side_bar.nix { };
   sideBar = mkSideBar siteUrl;
 
   mkPage = callPackage ./mk-page.nix { inherit stripPrefix addFile; } {
-    inherit siteUrl css sideBar;
+    inherit siteUrl cssLinks sideBar;
   };
 
 in
