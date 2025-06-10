@@ -39,7 +39,7 @@ let
       x
   ) css;
 
-  mkSideBar = callPackage ./mk_side_bar.nix { };
+  mkSideBar = callPackage ./mk-sidebar.nix { };
   sideBar = mkSideBar siteUrl;
 
   mkPage = callPackage ./mk-page.nix { inherit stripPrefix addFile; } {
@@ -51,11 +51,15 @@ symlinkJoin {
   name = "www_root";
   paths = [
     (mkPage {
-      path = ./content/README.md;
+      path = ./content/home.md;
       prefix = ./content;
     })
     (mkPage {
       path = ./content/pages/about.md;
+      prefix = ./content;
+    })
+    (mkPage {
+      path = ./content/README.md;
       prefix = ./content;
     })
   ] ++ cssDrvs;
