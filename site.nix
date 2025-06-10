@@ -46,21 +46,23 @@ let
     inherit siteUrl cssLinks sideBar;
   };
 
+  contentPrefix = ./content;
+
+  mdDrvs =
+    let
+      hasSuffix = suffix: path: lib.strings.hasSuffix suffix (builtins.toString path);
+      mdFiles = builtins.filter (x: (hasSuffix ".md" x)) (lib.fileset.toList contentPrefix);
+    in
+    map (
+      x:
+      mkPage {
+        path = x;
+        prefix = contentPrefix;
+      }
+    ) mdFiles;
+
 in
 symlinkJoin {
   name = "www_root";
-  paths = [
-    (mkPage {
-      path = ./content/home.md;
-      prefix = ./content;
-    })
-    (mkPage {
-      path = ./content/pages/about.md;
-      prefix = ./content;
-    })
-    (mkPage {
-      path = ./content/README.md;
-      prefix = ./content;
-    })
-  ] ++ cssDrvs;
+  paths = mdDrvs ++ cssDrvs;
 }
