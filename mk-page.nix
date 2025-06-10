@@ -27,8 +27,10 @@ let
       template = ./default.html5;
       relative2absolute-links = ./relative2absolute-links.lua;
 
-      destName = builtins.replaceStrings [ ".md" ] [ ".html" ] (stripPrefix file);
-      name = builtins.replaceStrings [ "/" ] [ "-" ] name;
+      destName = builtins.replaceStrings [ ".md" ] [ ".html" ] (stripPrefix {
+        inherit path prefix;
+      });
+      #      name = builtins.replaceStrings [ "/" ] [ "-" ] name;
 
       mkCmdArg =
         cssPath:
@@ -37,14 +39,18 @@ let
             if
               builtins.isPath cssPath # \
             then
-              siteUrl + (removeCurrentDirPrefix cssPath)
+              siteUrl
+              + (stripPrefix {
+                path = cssPath;
+                prefix = ./.;
+              })
             else
               cssPath;
         in
         lib.escapeShellArg "--css=${res}";
       cssArgs = lib.concatStringsSep " " (map mkCmdArg css);
     in
-    runCommand drvName
+    runCommand (builtins.toString path)
       {
         preferLocalBuild = true;
         allowSubstitutes = false;
@@ -57,7 +63,7 @@ let
         SITE_URL = siteUrl;
       }
       ''
-         target=$out/${lib.escapeShellArg name}
+         target=$out/${lib.escapeShellArg destName}
          mkdir -p "$(dirname "$target")"
          HOME="$(mktemp -d)" # for fontconfig
 
@@ -72,7 +78,7 @@ let
                               --lua-filter=${relative2absolute-links} \
                               --filter pandoc-plantuml \
                               --verbose \
-                              ${file}
+                              ${path}
 
         if [ -d "plantuml-images" ]; then
            echo "Install plantuml images"
@@ -80,10 +86,19 @@ let
            find plantuml-images -type f -name '*.png' -exec install -m 644 {} $out/{} \;
         fi
       '';
+  extractImageLinks = callPackage ./extract-image-links { };
+  imageLinks = extractImageLinks path;
+  imageDrvs = map (
+    p:
+    addFile {
+      path = (prefix + "/${p}");
+      inherit prefix;
+    }
+  ) imageLinks;
 in
 symlinkJoin {
   name = builtins.toString path;
   paths = [
     html
-  ];
+  ] ++ imageDrvs;
 }

@@ -38,5 +38,14 @@ let
 in
 symlinkJoin {
   name = "www_root";
-  paths = [ ] ++ cssDrvs;
+  paths = [
+    (mkPage {
+      path = ./content/README.md;
+      prefix = ./content;
+    })
+    (mkPage {
+      path = ./content/pages/about.md;
+      prefix = ./content;
+    })
+  ] ++ cssDrvs;
 }
