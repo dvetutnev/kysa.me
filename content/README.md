@@ -12,9 +12,11 @@ With stripPrefix
 
 Text
 
-![PIC](dir/nix_hacking_1.png)
+![](dir/nix_hacking_1.png)
 
 ![PIC2](you_are_here.png)
+
+![Absolute](https://kysa.me/content/images/size/w1600/2023/10/nix_hacking_1.png)
 
 
 # Run tests
