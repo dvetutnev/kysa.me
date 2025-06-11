@@ -41,7 +41,10 @@ let
   ) css;
 
   mkSideBar = callPackage ./mk-sidebar.nix { };
-  sideBar = mkSideBar siteUrl;
+  sideBar = mkSideBar {
+    inherit siteUrl;
+    navigation = import ./navigation.nix;
+  };
 
   mkPage = callPackage ./mk-page.nix { inherit stripPrefix addFile; } {
     inherit siteUrl cssLinks sideBar;

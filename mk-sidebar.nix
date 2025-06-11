@@ -1,21 +1,10 @@
 { lib }:
 
-siteUrl:
+{ siteUrl, navigation }:
 let
-  mkNavLink = { urn, name }: ''<li><a href="${siteUrl}${urn}">${name}</a></li>'';
+  mkNavEntry = { urn, name }: ''<li><a href="${siteUrl}${urn}">${name}</a></li>'';
 
-  navLinks = lib.strings.concatStrings (
-    map mkNavLink [
-      {
-        urn = "home.html";
-        name = "Home";
-      }
-      {
-        urn = "pages/about.html";
-        name = "About";
-      }
-    ]
-  );
+  navLinks = lib.strings.concatStrings (map mkNavEntry navigation);
 
   mkSideBar = navLinks: ''
     <div class="sidebar">
