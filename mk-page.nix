@@ -22,15 +22,14 @@
 
 { path, prefix }:
 let
+  destName = builtins.replaceStrings [ ".md" ] [ ".html" ] (stripPrefix {
+    inherit path prefix;
+  });
+
   html =
     let
       template = ./default.html5;
       relative2absolute-links = ./relative2absolute-links.lua;
-
-      destName = builtins.replaceStrings [ ".md" ] [ ".html" ] (stripPrefix {
-        inherit path prefix;
-      });
-      #      name = builtins.replaceStrings [ "/" ] [ "-" ] name;
 
       mkCmdArg =
         x:
@@ -47,7 +46,7 @@ let
 
       cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
     in
-    runCommand (builtins.toString path)
+    runCommand destName
       {
         preferLocalBuild = true;
         allowSubstitutes = false;
@@ -94,7 +93,7 @@ let
   ) imageLinks;
 in
 symlinkJoin {
-  name = builtins.toString path;
+  name = destName;
   paths = [
     html
   ] ++ imageDrvs;

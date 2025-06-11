@@ -1,6 +1,7 @@
 {
   callPackage,
   symlinkJoin,
+  stdenv,
   lib,
 }:
 
@@ -61,8 +62,25 @@ let
       }
     ) mdFiles;
 
+  homeDrv =
+    let
+      pred = x: lib.strings.hasSuffix "home.html" x.name;
+      home = lib.lists.findFirst pred null mdDrvs;
+    in
+    lib.throwIf (isNull home) "Can`t find home page in HTML derivations" home;
+
+  indexDrv = stdenv.mkDerivation {
+    name = "index.html";
+    buildInputs = [ homeDrv ];
+    allowSubstitutes = false;
+    buildCommand = ''
+      mkdir -p $out
+      ln -s "${homeDrv}/${homeDrv.name}" $out/index.html
+    '';
+  };
+
 in
 symlinkJoin {
   name = "www_root";
-  paths = mdDrvs ++ cssDrvs;
+  paths = mdDrvs ++ cssDrvs ++ [ indexDrv ];
 }
