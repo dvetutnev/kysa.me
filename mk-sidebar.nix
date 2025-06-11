@@ -18,7 +18,7 @@ let
           ${navLinks}
         </ul>
 
-        <p>&copy; 2017. All rights reserved.</p>
+        <p>&copy; 2025. All rights reserved.</p>
       </div>
     </div>'';
 in
