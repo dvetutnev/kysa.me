@@ -5,3 +5,5 @@
 [README](README.md)
 
 [About](pages/about.md)
+
+# [About with link](pages/about.md)
