@@ -3,7 +3,7 @@
   addFile,
 
   callPackage,
-  runCommand,
+  runCommandLocal,
   lib,
   pandoc,
   symlinkJoin,
@@ -46,10 +46,8 @@ let
 
       cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
     in
-    runCommand destName
+    runCommandLocal destName
       {
-        preferLocalBuild = true;
-        allowSubstitutes = false;
         nativeBuildInputs = [
           plantuml
           pandoc-plantuml-filter
