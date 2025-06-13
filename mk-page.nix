@@ -49,6 +49,7 @@ let
     runCommandLocal destName
       {
         nativeBuildInputs = [
+          pandoc
           plantuml
           pandoc-plantuml-filter
         ];
