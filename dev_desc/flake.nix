@@ -4,20 +4,21 @@
   outputs =
     { self, nixpkgs }:
     {
+      packages."x86_64-linux".default =
+        let
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          mkPage = pkgs.callPackage ./mk-page.nix { };
+          www_root = mkPage {
+            path = ./content/test.md;
+            prefix = ./content;
+          };
+        in
+        www_root;
+
       apps."x86_64-linux".default =
         let
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          www_root = pkgs.writeTextDir "index.html" ''
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Hello World</title>
-            </head>
-            <body>
-                <h1>Hello World</h1>
-            </body>
-            </html>
-          '';
+          www_root = self.packages."x86_64-linux".default;
           config = pkgs.writeTextDir "Caddyfile" ''
             http://localhost:8080
 
