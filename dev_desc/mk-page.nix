@@ -17,6 +17,7 @@ let
   html =
     runCommandLocal destName
       {
+        nativeBuildInputs = [ pandoc ];
         FONTCONFIG_FILE = makeFontsConf { fontDirectories = [ ]; };
       }
       ''
