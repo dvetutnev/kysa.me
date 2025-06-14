@@ -7,11 +7,8 @@
       packages."x86_64-linux".default =
         let
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          mkPage = pkgs.callPackage ./mk-page.nix { };
-          www_root = mkPage {
-            path = ./content/test.md;
-            prefix = ./content;
-          };
+          mkSite = pkgs.callPackage ./mk-site.nix { };
+          www_root = mkSite;
         in
         www_root;
 

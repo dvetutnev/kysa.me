@@ -1,5 +1,6 @@
 {
-  callPackage,
+  stripPrefix,
+
   runCommandLocal,
   pandoc,
   makeFontsConf,
@@ -8,8 +9,6 @@
 
 { path, prefix }:
 let
-  stripPrefix = callPackage ./strip-prefix { };
-
   destName = builtins.replaceStrings [ ".md" ] [ ".html" ] (stripPrefix {
     inherit path prefix;
   });
