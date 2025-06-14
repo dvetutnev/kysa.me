@@ -31,19 +31,7 @@ let
       template = ./default.html5;
       relative2absolute-links = ./relative2absolute-links.lua;
 
-      mkCmdArg =
-        x:
-        let
-          link =
-            if
-              lib.strings.hasPrefix "http" x # /
-            then
-              x
-            else
-              siteUrl + x;
-        in
-        lib.escapeShellArg "--css=${link}";
-
+      mkCmdArg = link: lib.escapeShellArg "--css=${link}";
       cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
     in
     runCommandLocal destName
