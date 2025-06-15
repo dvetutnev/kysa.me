@@ -30,8 +30,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          mkSite = pkgs.callPackage ./site.nix { };
-          www_root = mkSite ./content;
+          www_root = self.packages.${system}.site;
           config = pkgs.writeTextDir "Caddyfile" ''
             http://localhost:8080
 
