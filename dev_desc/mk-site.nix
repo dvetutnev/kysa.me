@@ -6,7 +6,6 @@
 let
   stripPrefix = callPackage ./strip-prefix { };
   addFile = callPackage ./add-file { inherit stripPrefix; };
-  mkPage = callPackage ./mk-page.nix { inherit stripPrefix; };
 
   css = [
     ./css/poole.css
@@ -23,6 +22,24 @@ let
       prefix = ./.;
     }
   ) (builtins.filter (x: builtins.isPath x) css);
+
+  cssLinks = map (
+    x:
+    if builtins.isPath x then
+      stripPrefix {
+        path = x;
+        prefix = ./.;
+      }
+    else
+      x
+  ) css;
+
+  mkSideBar = callPackage ./mk-sidebar.nix { };
+  sideBar = mkSideBar (import ./navigation.nix);
+
+  mkPage = callPackage ./mk-page.nix { inherit stripPrefix; } {
+    inherit cssLinks sideBar;
+  };
 
   html = mkPage {
     path = ./content/test.md;
