@@ -63,7 +63,7 @@ let
 
         if [ -d "plantuml-images" ]; then
            echo "Install plantuml images"
-           find plantuml-images -type d -exec install -d -m 755 {} $out/{} \;
+           mkdir -p $out/plantuml-images
            find plantuml-images -type f -name '*.png' -exec install -m 644 {} $out/{} \;
         fi
       '';
