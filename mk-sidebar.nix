@@ -1,8 +1,8 @@
 { lib }:
 
-{ siteUrl, navigation }:
+navigation:
 let
-  mkNavEntry = { urn, name }: ''<li><a href="${siteUrl}${urn}">${name}</a></li>'';
+  mkNavEntry = { urn, name }: ''<li><a href="${urn}">${name}</a></li>'';
 
   navLinks = lib.strings.concatStrings (map mkNavEntry navigation);
 
@@ -10,7 +10,7 @@ let
     <div class="sidebar">
       <div class="container sidebar-sticky">
         <div class="sidebar-about">
-          <a href="${siteUrl}"><h1>kysa.me</h1></a>
+          <a href="/"><h1>kysa.me</h1></a>
             <p class="lead">&Zcy;&acy;&mcy;&iecy;&tcy;&ocy;&chcy;&kcy;&icy;</p>
         </div>
 

@@ -48,8 +48,8 @@ Alice <-- Bob: another authentication Response
 ```
 
 
-[About](pages/about.md)
+[About](about.md)
 
-[About2](pages/about.md)
+[About2](about.md)
 
 

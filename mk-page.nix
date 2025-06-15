@@ -13,7 +13,6 @@
 }:
 
 {
-  siteUrl,
   cssLinks,
   sideBar,
   titlePrefix ? "kysa.me",
@@ -29,7 +28,7 @@ let
   html =
     let
       template = ./default.html5;
-      relative2absolute-links = ./relative2absolute-links.lua;
+      replace-extensions-md2html = ./replace-extensions-md2html.lua;
 
       mkCmdArg = link: lib.escapeShellArg "--css=${link}";
       cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
@@ -43,7 +42,6 @@ let
         ];
 
         FONTCONFIG_FILE = makeFontsConf { fontDirectories = [ ]; };
-        SITE_URL = siteUrl;
       }
       ''
          target=$out/${lib.escapeShellArg destName}
@@ -58,7 +56,7 @@ let
                               --variable=include-before:${lib.escapeShellArg sideBar} \
                               --title-prefix=${lib.escapeShellArg titlePrefix} \
                               --metadata=lang:${lang} \
-                              --lua-filter=${relative2absolute-links} \
+                              --lua-filter=${replace-extensions-md2html} \
                               --filter pandoc-plantuml \
                               --verbose \
                               ${path}

@@ -4,6 +4,6 @@
 
 [README](README.md)
 
-[About](pages/about.md)
+[About](about.md)
 
-# [About with link](pages/about.md)
+# [About with link](about.md)

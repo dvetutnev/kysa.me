@@ -21,7 +21,7 @@
           mkSite = pkgs.callPackage ./site.nix { };
         in
         {
-          site = mkSite "http://localhost:8080/";
+          site = mkSite ./content;
           default = self.packages.${system}.site;
         }
       );
@@ -31,7 +31,7 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
           mkSite = pkgs.callPackage ./site.nix { };
-          www_root = mkSite "http://localhost:8080";
+          www_root = mkSite ./content;
           config = pkgs.writeTextDir "Caddyfile" ''
             http://localhost:8080
 
