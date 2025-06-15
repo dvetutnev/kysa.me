@@ -44,12 +44,10 @@ let
     inherit cssLinks sideBar;
   };
 
-  contentPrefix = ./content;
-
   mdDrvs =
     let
       hasSuffix = suffix: path: lib.strings.hasSuffix suffix (builtins.toString path);
-      mdFiles = builtins.filter (x: (hasSuffix ".md" x)) (lib.fileset.toList contentPrefix);
+      mdFiles = builtins.filter (x: (hasSuffix ".md" x)) (lib.fileset.toList contentPath);
     in
     map (
       x:
