@@ -5,11 +5,8 @@
   lib,
 }:
 
-siteUrl':
-
+contentPath:
 let
-  siteUrl = if lib.strings.hasSuffix "/" siteUrl' then siteUrl' else "${siteUrl'}/";
-
   stripPrefix = callPackage ./strip-prefix { };
   addFile = callPackage ./add-file { inherit stripPrefix; };
 
@@ -32,8 +29,8 @@ let
   cssLinks = map (
     x:
     if builtins.isPath x then
-      siteUrl
-      + stripPrefix {
+
+      stripPrefix {
         path = x;
         prefix = ./.;
       }
@@ -42,13 +39,10 @@ let
   ) css;
 
   mkSideBar = callPackage ./mk-sidebar.nix { };
-  sideBar = mkSideBar {
-    inherit siteUrl;
-    navigation = import ./navigation.nix;
-  };
+  sideBar = mkSideBar (import ./navigation.nix);
 
   mkPage = callPackage ./mk-page.nix { inherit stripPrefix addFile; } {
-    inherit siteUrl cssLinks sideBar;
+    inherit cssLinks sideBar;
   };
 
   contentPrefix = ./content;
@@ -62,7 +56,7 @@ let
       x:
       mkPage {
         path = x;
-        prefix = contentPrefix;
+        prefix = contentPath;
       }
     ) mdFiles;
 

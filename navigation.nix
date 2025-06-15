@@ -4,7 +4,7 @@
     name = "Home";
   }
   {
-    urn = "pages/about.html";
+    urn = "about.html";
     name = "About";
   }
 ]
