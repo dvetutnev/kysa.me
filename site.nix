@@ -29,7 +29,6 @@ let
   cssLinks = map (
     x:
     if builtins.isPath x then
-
       stripPrefix {
         path = x;
         prefix = ./.;
