@@ -19,7 +19,7 @@ let
       '';
   ast = with builtins; fromJSON (readFile json);
 
-  collectImages = import ./collect_images;
+  collectImages = import ./collect-images;
   images = collectImages ast.blocks;
 
   allPaths = with builtins; map (e: head (elemAt e.c 2)) images;
