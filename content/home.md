@@ -7,3 +7,5 @@
 [About](about.md)
 
 # [About with link](about.md)
+
+[how its made](nix-static-site-blog.md)
