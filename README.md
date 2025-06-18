@@ -10,10 +10,6 @@ date: may 2025
 
 Text
 
-![PIC](dir/nix_hacking_1.png)
-
-![PIC2](you_are_here.png)
-
 
 # Run tests
 
