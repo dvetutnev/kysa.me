@@ -1,3 +1,9 @@
+---
+title: Nix. Hacking your first package
+author: Dmitriy Vetutnev
+date: July 2023
+---
+
 # Intro
 
 Киллер-фича Nix это воспроизводимое развертывание окружения. Одной командой:
