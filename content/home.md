@@ -11,3 +11,5 @@
 [how its made](nix-static-site-blog.md)
 
 [Hacking your first package](nix-hacking-your-first-package.md)
+
+[Nix and flakes](nix-and-flakes.md)
