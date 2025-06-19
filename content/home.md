@@ -13,3 +13,5 @@
 [Hacking your first package](nix-hacking-your-first-package.md)
 
 [Nix and flakes](nix-and-flakes.md)
+
+[Boost ASIO coroutines. NATS client](boost-asio-coroutines-nats-client.md)
