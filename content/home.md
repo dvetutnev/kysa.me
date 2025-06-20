@@ -20,3 +20,5 @@ author: Dmitriy Vetutnev
 [Boost ASIO coroutines. NATS client](boost-asio-coroutines-nats-client.md)
 
 [Boost ASIO coroutines. Cancelation](boost-asio-coroutines-cancelation.md)
+
+[Boost ASIO coroutines. MultiProducerSequencer](boost-asio-coroutines-multiproducersequencer.md)
