@@ -22,3 +22,5 @@ author: Dmitriy Vetutnev
 [Boost ASIO coroutines. Cancelation](boost-asio-coroutines-cancelation.md)
 
 [Boost ASIO coroutines. MultiProducerSequencer](boost-asio-coroutines-multiproducersequencer.md)
+
+[Boost ASIO coroutines. Sequencer & multiple consumers](boost-asio-coroutines-sequencer-and-multiple-consumers.md)
