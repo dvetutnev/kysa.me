@@ -1,4 +1,7 @@
-# Home page
+---
+title: Home page
+author: Dmitriy Vetutnev
+---
 
 Эта страница со списком постов
 
