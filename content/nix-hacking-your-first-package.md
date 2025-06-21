@@ -153,7 +153,7 @@ $ outputs/out/bin/nix eval --expr '/path/p@a'
 
 Патч традиционно получаем при помощи git diff > enable_at_in_path.patch, теперь его нужно прикрутить к конфигурации, я это сделал через overlay
 
-```diff
+```nix
 nixOverlay = final: prev:
 {
   nix = prev.nix.overrideAttrs (old: {
@@ -162,6 +162,7 @@ nixOverlay = final: prev:
     ];
   });
 };
+
 system = "x86_64-linux";
 pkgs = import nixpkgs {
   inherit system;
