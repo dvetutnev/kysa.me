@@ -1033,7 +1033,7 @@ return {
    html =
      let
        template = ./default.html5;
-+      replace-suffix-md2html = ./replace-extensions-md2html.lua;
++      replace-suffix-md2html = ./replace-suffix-md2html.lua;
  
        mkCmdArg = link: lib.escapeShellArg "--css=${link}";
        cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
