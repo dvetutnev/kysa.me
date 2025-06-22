@@ -28,7 +28,7 @@ let
   html =
     let
       template = ./default.html5;
-      replace-extensions-md2html = ./replace-extensions-md2html.lua;
+      replace-suffix-md2html = ./replace-suffix-md2html.lua;
 
       mkCmdArg = link: lib.escapeShellArg "--css=${link}";
       cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
@@ -56,7 +56,7 @@ let
                               --variable=include-before:${lib.escapeShellArg sideBar} \
                               --title-prefix=${lib.escapeShellArg titlePrefix} \
                               --metadata=lang:${lang} \
-                              --lua-filter=${replace-extensions-md2html} \
+                              --lua-filter=${replace-suffix-md2html} \
                               --filter pandoc-plantuml \
                               --verbose \
                               ${path}

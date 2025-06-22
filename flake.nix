@@ -18,7 +18,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          mkSite = pkgs.callPackage ./site.nix { };
+          mkSite = pkgs.callPackage ./mk-site.nix { };
         in
         {
           site = mkSite ./content;
