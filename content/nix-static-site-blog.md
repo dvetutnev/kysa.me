@@ -1011,7 +1011,7 @@ relativeImagePaths
  }
 ```
 
-Но у нас все еще в отрендереных страницых ссылки на другие документа в виде MArkdown ссылок. Их нам нужно исправить на HTML, заменив суфикс с `.md` ->`.html` Сделаем мы это lua-фильтром для **pandoc** `replace-extensions-md2html.lua`:
+Но у нас все еще в отрендереных страницых ссылки на другие документа в виде Markdown ссылок. Их нам нужно исправить на HTML, заменив суфикс с `.md` ->`.html` Сделаем мы это lua-фильтром для **pandoc** `replace-suffix-md2html.lua`:
 
 ```lua
 return {
@@ -1033,7 +1033,7 @@ return {
    html =
      let
        template = ./default.html5;
-+      replace-extensions-md2html = ./replace-extensions-md2html.lua;
++      replace-suffix-md2html = ./replace-extensions-md2html.lua;
  
        mkCmdArg = link: lib.escapeShellArg "--css=${link}";
        cssArgs = lib.concatStringsSep " " (map mkCmdArg cssLinks);
@@ -1041,7 +1041,7 @@ return {
                               --output="$target" \
                               ${cssArgs} \
                               --variable=include-before:${lib.escapeShellArg sideBar} \
-+                             --lua-filter ${replace-extensions-md2html} \
++                             --lua-filter ${replace-suffix-md2html} \
                               --filter pandoc-plantuml \
                               --verbose \
                               ${path}
