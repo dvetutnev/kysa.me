@@ -923,7 +923,7 @@ relativeImagePaths
                               --output="$target" \
                               ${cssArgs} \
                               --variable=include-before:${lib.escapeShellArg sideBar} \
-+                             --filter pandoc-plantuml \
++                             --filter=pandoc-plantuml \
                               --verbose \
                               ${path}
 +
@@ -1041,8 +1041,8 @@ return {
                               --output="$target" \
                               ${cssArgs} \
                               --variable=include-before:${lib.escapeShellArg sideBar} \
-+                             --lua-filter ${replace-suffix-md2html} \
-                              --filter pandoc-plantuml \
++                             --lua-filter=${replace-suffix-md2html} \
+                              --filter=pandoc-plantuml \
                               --verbose \
                               ${path}
 ```

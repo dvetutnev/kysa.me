@@ -57,7 +57,7 @@ let
                               --title-prefix=${lib.escapeShellArg titlePrefix} \
                               --metadata=lang:${lang} \
                               --lua-filter=${replace-suffix-md2html} \
-                              --filter pandoc-plantuml \
+                              --filter=pandoc-plantuml \
                               --verbose \
                               ${path}
 
