@@ -16,7 +16,7 @@ let
   collectImages = import ./collect-images;
   images = collectImages ast.blocks;
 
-  allPaths = with builtins; map (e: head (elemAt e.c 2)) images;
+  allPaths = map (e: lib.head (lib.last e.c)) images;
   relativeImagePaths = builtins.filter (e: !lib.strings.hasPrefix "http" e) allPaths;
 in
 relativeImagePaths
