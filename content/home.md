@@ -26,3 +26,5 @@ author: Dmitriy Vetutnev
 [Boost ASIO coroutines. Sequencer & multiple consumers](boost-asio-coroutines-sequencer-and-multiple-consumers.md)
 
 [Boost ASIO coroutines. SingleProducerSequencer](boost-asio-coroutines-singleproducersequencer.md)
+
+[Boost ASIO coroutines. SequenceBarrier](boost-asio-coroutines-sequencebarrier.md)
