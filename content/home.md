@@ -5,11 +5,7 @@ author: Dmitriy Vetutnev
 
 Эта страница со списком постов
 
-[README](README.md)
-
-[About](about.md)
-
-# [About with link](about.md)
+---
 
 [Nix. Static site blog](nix-static-site-blog.md)
 
@@ -28,3 +24,7 @@ author: Dmitriy Vetutnev
 [Boost ASIO coroutines. SingleProducerSequencer](boost-asio-coroutines-singleproducersequencer.md)
 
 [Boost ASIO coroutines. SequenceBarrier](boost-asio-coroutines-sequencebarrier.md)
+
+[Ghost on NixOS](ghost-on-nixos.md)
+
+---
