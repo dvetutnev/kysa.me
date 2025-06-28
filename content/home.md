@@ -35,4 +35,6 @@ author: Dmitriy Vetutnev
 
 [Boost ASIO coroutines. Scheduler](boost-asio-coroutines-scheduler.md)
 
+[WireGuard](wireguard.md)
+
 ---
