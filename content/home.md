@@ -27,4 +27,6 @@ author: Dmitriy Vetutnev
 
 [Ghost on NixOS](ghost-on-nixos.md)
 
+[Boost ASIO coroutines. Event. Работа над ошибками](boost-asio-coroutines-event-work-on-mistakes.md)
+
 ---
