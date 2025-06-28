@@ -31,4 +31,6 @@ author: Dmitriy Vetutnev
 
 [Boost ASIO coroutines. Event](boost-asio-coroutines-event.md)
 
+[NixOS on Raspberry Pi 4](nixos-on-raspberry-pi-4.md)
+
 ---
