@@ -33,4 +33,6 @@ author: Dmitriy Vetutnev
 
 [NixOS on Raspberry Pi 4](nixos-on-raspberry-pi-4.md)
 
+[Boost ASIO coroutines. Scheduler](boost-asio-coroutines-scheduler.md)
+
 ---
