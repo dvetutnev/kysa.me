@@ -29,4 +29,6 @@ author: Dmitriy Vetutnev
 
 [Boost ASIO coroutines. Event. Работа над ошибками](boost-asio-coroutines-event-work-on-mistakes.md)
 
+[Boost ASIO coroutines. Event](boost-asio-coroutines-event.md)
+
 ---
