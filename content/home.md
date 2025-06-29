@@ -37,4 +37,6 @@ author: Dmitriy Vetutnev
 
 [WireGuard](wireguard.md)
 
+[Docker UID/GID](docker-uid-gid.md)
+
 ---
