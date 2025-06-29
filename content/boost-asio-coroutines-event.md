@@ -82,7 +82,7 @@ public:
 };
 ```
 
-Механизм межпоточной инхронизации (строки 18 и 35) взят из [реализации cppcoro](https://github.com/lewissbaker/cppcoro/blob/master/include/cppcoro/single_consumer_event.hpp?ref=kysa.me#L92), пробуждение реализовано аналогично функции [schedule](https://kysa.me/boost-asio-coroutines-scheduler/), отправкой функтора на исполнение в _экзекьютер_. Особенность этой реализации в том, что она всегда приостанавливает короутину-подписчек, даже если к моменту вызова метода **wait** другой поток уже переключил состояние эвента методом **set**. Аналогично этому в [Boost](https://www.boost.org/doc/libs/1_80_0/doc/html/boost_asio/reference/basic_waitable_timer/async_wait.html?ref=kysa.me) работают асинхронные операции:
+Механизм межпоточной инхронизации (строки 18 и 35) взят из [реализации cppcoro](https://github.com/lewissbaker/cppcoro/blob/master/include/cppcoro/single_consumer_event.hpp?ref=kysa.me#L92), пробуждение реализовано аналогично функции [schedule](boost-asio-coroutines-scheduler.md), отправкой функтора на исполнение в _экзекьютер_. Особенность этой реализации в том, что она всегда приостанавливает короутину-подписчек, даже если к моменту вызова метода **wait** другой поток уже переключил состояние эвента методом **set**. Аналогично этому в [Boost](https://www.boost.org/doc/libs/1_80_0/doc/html/boost_asio/reference/basic_waitable_timer/async_wait.html?ref=kysa.me) работают асинхронные операции:
 
 > Regardless of whether the asynchronous operation completes immediately or not, the completion handler will not be invoked from within this function. On immediate completion, invocation of the handler will be performed in a manner equivalent to using [post](https://www.boost.org/doc/libs/1_80_0/doc/html/boost_asio/reference/post.html?ref=kysa.me).
 
@@ -181,6 +181,6 @@ BOOST_AUTO_TEST_CASE(test_Event_set_before_wait)
 }
 ```
 
-Код [тут](https://github.com/dvetutnev/boost_asio_awaitable_ext?ref=kysa.me).
+Код [тут](https://github.com/dvetutnev/boost_asio_awaitable_ext).
 
-У этой статьи есть [продолжение](https://kysa.me/boost-asio-coroutines-event-rabota-nad-oshibkami/).
+У этой статьи есть [продолжение](boost-asio-coroutines-event-work-on-mistakes.md).

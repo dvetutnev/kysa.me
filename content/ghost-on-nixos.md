@@ -120,7 +120,7 @@ docker run --restart=always -p 127.0.0.1:2368:2368 \
 }
 ```
 
-`security.acme.*` - получение сертификатов от [Let`s Encrypt](https://letsencrypt.org/?ref=kysa.me) для HTTPS. Ограничен по IP доступ к админке блога (`/ghost`, `10.100.0.0/24` - сеть моего [VPN](https://kysa.me/wireguard-vpn/)). Также добавлен виртуальный хост `static.kysa.me` для раздачи всякой статики (например Prism.js). Не забываем открыть порты в фаерволе:
+`security.acme.*` - получение сертификатов от [Let`s Encrypt](https://letsencrypt.org/?ref=kysa.me) для HTTPS. Ограничен по IP доступ к админке блога (`/ghost`, `10.100.0.0/24` - сеть моего [VPN](wireguard.md)). Также добавлен виртуальный хост `static.kysa.me` для раздачи всякой статики (например Prism.js). Не забываем открыть порты в фаерволе:
 
 ```nix
 {

@@ -3,7 +3,7 @@ title: Boost.ASIO coroutines. Event. Работа над ошибками
 author: Dmitriy Vetutnev
 date: January 2023
 ---
-В предыдущей [статье](https://kysa.me/boost-asio-coroutines-event/) был описан элемент синхронизации **Event**, аналогичный оному из [cppcoro](https://github.com/lewissbaker/cppcoro?ref=kysa.me#single_consumer_event). Ошибка была в том, что весь механизм синхронизации был перенесен из **cppcoro** в другую среду без какой-либо валидации. Правильным бы на тот момент решением было бы использовать в атомарных операциях **memory order** по умолчанию ([std::memory_order_seq_cst](http://en.cppreference.com/w/cpp/atomic/memory_order?ref=kysa.me)) тем самым обеспечивая [sequential consistency](https://en.wikipedia.org/wiki/Sequential_consistency?ref=kysa.me)_[.](https://en.wikipedia.org/wiki/Sequential_consistency?ref=kysa.me)_
+В предыдущей [статье](boost-asio-coroutines-event.md) был описан элемент синхронизации **Event**, аналогичный оному из [cppcoro](https://github.com/lewissbaker/cppcoro?ref=kysa.me#single_consumer_event). Ошибка была в том, что весь механизм синхронизации был перенесен из **cppcoro** в другую среду без какой-либо валидации. Правильным бы на тот момент решением было бы использовать в атомарных операциях **memory order** по умолчанию ([std::memory_order_seq_cst](http://en.cppreference.com/w/cpp/atomic/memory_order?ref=kysa.me)) тем самым обеспечивая [sequential consistency](https://en.wikipedia.org/wiki/Sequential_consistency?ref=kysa.me)_[.](https://en.wikipedia.org/wiki/Sequential_consistency?ref=kysa.me)_
 
 ```cpp
 class Event

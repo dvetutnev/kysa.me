@@ -3,6 +3,7 @@ title: Boost.ASIO coroutines. Scheduler
 author: Dmitriy Vetutnev
 date: June 2022
 ---
+
 Для реализации примитивов синхронизации короутин (например [sequence_barrier](https://github.com/andreasbuhr/cppcoro?ref=kysa.me#sequence_barrier)) нужен [механизм для приостановки](https://github.com/andreasbuhr/cppcoro?ref=kysa.me#Scheduler-concept) короутины до следующей итерации цикла событий. По сути это аналог функции [pthread_yield](https://man7.org/linux/man-pages/man3/pthread_yield.3.html?ref=kysa.me) для синхронного кода.
 
 Пример использования выглядит как-то так:

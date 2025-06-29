@@ -3,7 +3,8 @@ title: Boost.ASIO coroutines. NATS client
 author: Dmitriy Vetutnev
 date: July 2023
 ---
-Теперь я добрался до практического применения разработанных ранее барьеров/секвенсоров ([SequenceBarrier](https://kysa.me/boost-asio-coroutines-sequencebarrier/), [SingleProducerSequencer](https://kysa.me/boost-asio-coroutines-singleproducersequencer/), [MultiProducerSequencer](https://kysa.me/boost-asio-coroutines-multiproducersequencer/)) для короутин. В этот раз будет реализован клиент для [NATS](https://nats.io/?ref=kysa.me). Концептуально эта система очередей довольно проста: клиенты могут отправлять события в очередь (топик), клиенты могут подписываться на получение событий из очереди (топика). Ключевая фишка - отсутствие необходимости заранее [конфигурировать](https://docs.nats.io/nats-concepts/what-is-nats?ref=kysa.me#connecting-nats-client-applications-to-the-nats-servers) очереди.
+
+Теперь я добрался до практического применения разработанных ранее барьеров/секвенсоров ([SequenceBarrier](boost-asio-coroutines-sequencebarrier.md), [SingleProducerSequencer](boost-asio-coroutines-singleproducersequencer.md), [MultiProducerSequencer](boost-asio-coroutines-multiproducersequencer.md)) для короутин. В этот раз будет реализован клиент для [NATS](https://nats.io/?ref=kysa.me). Концептуально эта система очередей довольно проста: клиенты могут отправлять события в очередь (топик), клиенты могут подписываться на получение событий из очереди (топика). Ключевая фишка - отсутствие необходимости заранее [конфигурировать](https://docs.nats.io/nats-concepts/what-is-nats?ref=kysa.me#connecting-nats-client-applications-to-the-nats-servers) очереди.
 
 Сначала определимся что хотим получить
 
@@ -253,7 +254,7 @@ SubQueueTail -down..> Message
 SubQueueHead -down..> Message
 ```
 
-Шаблон параметризируется типом секвенсора и типом передаваемого сообщения. Для исходящей очереди используется [MultiProducerSequencer](https://kysa.me/boost-asio-coroutines-multiproducersequencer/) (в нее могут помещаться сообщения из нескольких потоков одновременно), для очереди подписки используется более простой секвенсор [SingleProducerSequencer](https://kysa.me/boost-asio-coroutines-singleproducersequencer/) (в эту очередь сообщения помещает только одна короутина-приемник).
+Шаблон параметризируется типом секвенсора и типом передаваемого сообщения. Для исходящей очереди используется [MultiProducerSequencer](boost-asio-coroutines-multiproducersequencer.md) (в нее могут помещаться сообщения из нескольких потоков одновременно), для очереди подписки используется более простой секвенсор [SingleProducerSequencer](boost-asio-coroutines-singleproducersequencer.md) (в эту очередь сообщения помещает только одна короутина-приемник).
 
 Базовая очередь-шаблон смоделирована тремя объектами: хвост очереди `QueueTail` к которому добавляются сообщения, голова `QueueHead` из которой сообщения извлекаются и разделяемое состояние `QueueState` непосредственно реализующее функционал. В голове и хвосте содержится `shared_ptr` на разделяемый стейт. По сути классы головы и хвоста это просто фасады и эта конструкция немного напоминает реализацию пары `std::future`/`std::promise`. Такое деление я выбрал чтобы разрушением объекта-головы можно было уведомлять отправителей о том, что эту очередь больше никто не обрабатывает. Хвост очереди и стейт не объединены в один класс для возможности подписке обработать оставшиеся в очереди данные при ее отмене (удаляется голова-фасад, буфер и примитивы синхронизации остаются валидными в разделяемом стейте). Когда у нас есть очереди, все остальное реализуется довольно просто.
 
@@ -889,7 +890,7 @@ co_spawn(thread_pool,
 		 error_handler);
 ```
 
-Очереди клиента базируются на паттерне disruptor ([SequenceBarrier](https://kysa.me/boost-asio-coroutines-sequencebarrier/), [SingleProducerSequencer](https://kysa.me/boost-asio-coroutines-singleproducersequencer/), [MultiProducerSequecner](https://kysa.me/boost-asio-coroutines-multiproducersequencer/)). При реализации этого паттерна в качестве основы я взял его вариацию из [cppcoro](https://github.com/lewissbaker/cppcoro?ref=kysa.me#sequence_barrier) применив короутины `boost::asio::awaitable<>` вместо кастомных авайтеров. Асинхронная часть его интерфейса получила такой вид:
+Очереди клиента базируются на паттерне disruptor ([SequenceBarrier](boost-asio-coroutines-sequencebarrier.md), [SingleProducerSequencer](boost-asio-coroutines-singleproducersequencer.md), [MultiProducerSequecner](boost-asio-coroutines-multiproducersequencer.md)). При реализации этого паттерна в качестве основы я взял его вариацию из [cppcoro](https://github.com/lewissbaker/cppcoro?ref=kysa.me#sequence_barrier) применив короутины `boost::asio::awaitable<>` вместо кастомных авайтеров. Асинхронная часть его интерфейса получила такой вид:
 
 ```cpp
 auto wait_until_published(TSequence)

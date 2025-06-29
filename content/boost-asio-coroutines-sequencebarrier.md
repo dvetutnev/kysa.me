@@ -109,7 +109,7 @@ BOOST_TEST(!Traits::precedes(128u, 1u));
 
 ![](boost-asio-coroutines-sequencebarrier/SequenceBarrier-SD-impl.svg)
 
-Для непосредственной приостановки/пробуждения короутины используется ранее описанный класс [Event](https://kysa.me/boost-asio-coroutines-event/).
+Для непосредственной приостановки/пробуждения короутины используется ранее описанный класс [Event](boost-asio-coroutines-event.md).
 
 # Thread safety
 
