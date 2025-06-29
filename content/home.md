@@ -41,4 +41,6 @@ author: Dmitriy Vetutnev
 
 [Boost DI](boost-di.md)
 
+[Танчики 1990. Играем в проектирование](tank-1990.md)
+
 ---
