@@ -47,4 +47,6 @@ author: Dmitriy Vetutnev
 
 [STM8 Standard Peripherals Library](stm8-spl.md)
 
+[STM8 Hello world](stm8-hello-world.md)
+
 ---
