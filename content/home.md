@@ -39,4 +39,6 @@ author: Dmitriy Vetutnev
 
 [Docker UID/GID](docker-uid-gid.md)
 
+[Boost DI](boost-di.md)
+
 ---
