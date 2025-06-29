@@ -45,4 +45,6 @@ author: Dmitriy Vetutnev
 
 [IPSec strongSwan](ipsec-strongswan.md)
 
+[STM8 Standard Peripherals Library](stm8-spl.md)
+
 ---
