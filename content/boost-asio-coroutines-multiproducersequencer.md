@@ -5,7 +5,7 @@ date: May 2023
 ---
 
 
-Следующий примитив синхронизации из [cppcoro](https://github.com/lewissbaker/cppcoro?ref=kysa.me#multi_producer_sequencer) - MultiProducerSequencer. Он предназначен для координации нескольких продюсеров и одного или нескольких (с использовании [группы барьеров](boost-asio-coroutines-sequencer-and-multiple-consumers.md)) потребителей. Продюсеры и потребители могут работать в разных тредах, основное назначение этого секвенсора - реализация _thread-safe_ очереди. Если продюсер только один, то стоит применять [SingleProducerSequencer](https://kysa.me/boost-asio-coroutines-singleproducersequencer/) для избежания излишнего оверхеда.
+Следующий примитив синхронизации из [cppcoro](https://github.com/lewissbaker/cppcoro?ref=kysa.me#multi_producer_sequencer) - MultiProducerSequencer. Он предназначен для координации нескольких продюсеров и одного или нескольких (с использовании [группы барьеров](boost-asio-coroutines-sequencer-and-multiple-consumers.md)) потребителей. Продюсеры и потребители могут работать в разных тредах, основное назначение этого секвенсора - реализация _thread-safe_ очереди. Если продюсер только один, то стоит применять [SingleProducerSequencer](boost-asio-coroutines-singleproducersequencer.md) избежания излишнего оверхеда.
 
 # Intro
 
