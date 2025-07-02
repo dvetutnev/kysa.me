@@ -17,6 +17,7 @@
   sideBar,
   titlePrefix ? "kysa.me",
   lang ? "ru-RU",
+  highlight-style ? "pygments",
 }:
 
 { path, prefix }:
@@ -58,6 +59,7 @@ let
                               --metadata=lang:${lang} \
                               --lua-filter=${replace-suffix-md2html} \
                               --filter=pandoc-plantuml \
+                              --highlight-style=${highlight-style} \
                               --verbose \
                               ${path}
 
