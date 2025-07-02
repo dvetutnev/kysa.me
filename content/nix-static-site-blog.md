@@ -80,7 +80,7 @@ date: June 2025
 
 URN на итоговый HTML раздаваемый Web-сервером я хочу видеть без префикса контент: `example.org/test.html`
 
-При написании функции, отрезающей префикс, я применю свой любимый метод TDD. Тест для нее `strip-prefix/test.nix`:
+При написании функции, отрезающей префикс, я применю свой любимый метод [TDD](https://en.wikipedia.org/wiki/Test-driven_development). Тест для нее `strip-prefix/test.nix`:
 
 ```nix
 {
