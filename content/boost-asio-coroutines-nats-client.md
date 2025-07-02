@@ -57,6 +57,8 @@ auto publishMsg = [client](Message&& msg) -> awaitable<void>
 co_spawn(executor, publishMsg(std::move(msg)), detached);
 ```
 
+## Subscribe
+
 Изначально подписку я хотел смоделировать как range-based цикл:
 
 ```cpp
