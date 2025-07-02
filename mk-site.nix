@@ -10,13 +10,7 @@ let
   stripPrefix = callPackage ./strip-prefix { };
   addFile = callPackage ./add-file { inherit stripPrefix; };
 
-  css = [
-    ./css/poole.css
-    ./css/syntax.css
-    ./css/hyde.css
-    ./css/hyde-styx.css
-    "https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface"
-  ];
+  css = import ./css.nix;
 
   cssDrvs = map (
     p:
