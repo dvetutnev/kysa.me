@@ -1044,3 +1044,28 @@ return {
 # Retro
 
 Теперь весь контент это просто текстовые файлы, с небольшой примесью картинок, лежащий в Git-репозитории. Который в свою очередь можно расположить на любом (и нескольких) Git-хостинге (GitHub, GitLab и.д.), что автоматически решает проблему с бэкапом.
+
+Размер кодовой базы:
+
+```shell
+$ find . -name '*.nix' | xargs wc -l
+
+   87 ./extract-image-links/collect-images/test.nix
+   18 ./extract-image-links/collect-images/default.nix
+   17 ./extract-image-links/test.nix
+   22 ./extract-image-links/default.nix
+   25 ./mk-sidebar.nix
+   75 ./mk-site.nix
+   24 ./strip-prefix/test.nix
+    8 ./strip-prefix/default.nix
+   40 ./add-file/test.nix
+   16 ./add-file/default.nix
+    7 ./css/default.nix
+   58 ./flake.nix
+   87 ./mk-page.nix
+   10 ./navigation.nix
+  494 total
+```
+
+Код лежит [тут](https://github.com/dvetutnev/kysa.me).
+
