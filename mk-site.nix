@@ -10,7 +10,7 @@ let
   stripPrefix = callPackage ./strip-prefix { };
   addFile = callPackage ./add-file { inherit stripPrefix; };
 
-  css = import ./css.nix;
+  css = import ./css;
 
   cssDrvs = map (
     p:
