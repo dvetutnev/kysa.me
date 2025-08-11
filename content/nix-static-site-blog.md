@@ -12,7 +12,7 @@ date: June 2025
 
 # How it is made
 
-В качесте транслятор из Markdown в HTML я буду использовать [Pandoc](https://pandoc.org/), а запускающая обвязку (оркестрация) - [Nix](https://nixos.org/)
+В качесте транслятор из Markdown в HTML я буду использовать [Pandoc](https://pandoc.org/), а запускающую обвязку (оркестрация) - [Nix](https://nixos.org/)
 
 ## Preview server
 

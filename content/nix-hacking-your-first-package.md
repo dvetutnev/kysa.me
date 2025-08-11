@@ -1,7 +1,7 @@
 ---
 title: Nix. Hacking your first package
 author: Dmitriy Vetutnev
-date: July 2023
+date: Semptember 2023
 ---
 
 # Intro
