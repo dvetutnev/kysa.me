@@ -7,6 +7,8 @@ author: Dmitriy Vetutnev
 
 ---
 
+[Clojure. Compound File Binary](cfb-clj.md)
+
 [Nix. Static site blog](nix-static-site-blog.md)
 
 [Nix. Hacking your first package](nix-hacking-your-first-package.md)
