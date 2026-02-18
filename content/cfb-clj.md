@@ -189,7 +189,7 @@ Directory хранится FAT-цепочкой аналогично stream, н�
         root-id (:child storage)]
     (if (nil? root-id)
       (add-node directory storage-id :child node)
-      (insert-in-tree directory root-id node))))(defn insert-in-storage 
+      (insert-in-tree directory root-id node))))
 ```
 
 Окончательная сборка директории:
